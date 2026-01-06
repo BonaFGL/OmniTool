@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
+import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
 
@@ -1043,6 +1044,149 @@ const ColorLabModule = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+// --- MODULE 7: WHATSAPP & SOCIAL ---
+
+const SocialModule = ({ onBack }: { onBack: () => void }) => {
+  const [phone, setPhone] = useState('');
+  const [message, setMessage] = useState('');
+
+  // URL Encoder State
+  const [urlInput, setUrlInput] = useState('');
+  const [urlResult, setUrlResult] = useState('');
+
+  const cleanPhone = useMemo(() => {
+    return phone.replace(/[^0-9+]/g, '');
+  }, [phone]);
+
+  const waLink = useMemo(() => {
+    const p = cleanPhone || '390000000000';
+    const m = encodeURIComponent(message);
+    return `https://wa.me/${p}${m ? `?text=${m}` : ''}`;
+  }, [cleanPhone, message]);
+
+  const handleTest = () => {
+    window.open(waLink, '_blank');
+  };
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const handleUrlEncode = () => {
+    try { setUrlResult(encodeURIComponent(urlInput)); } catch { setUrlResult('Errore'); }
+  };
+
+  const handleUrlDecode = () => {
+    try { setUrlResult(decodeURIComponent(urlInput)); } catch { setUrlResult('Errore'); }
+  };
+
+  return (
+    <div className="animate-fade-in w-full max-w-6xl mx-auto p-4 md:p-8">
+      <div className="flex items-center gap-4 mb-8">
+        <button onClick={onBack} className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors group">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white/50 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+        <h2 className="text-2xl font-black text-white">WhatsApp & Social Tool</h2>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* LEFT: WA GENERATOR */}
+        <section className="glass-panel rounded-[2.5rem] p-8 shadow-2xl bg-lime-900/10 border-lime-500/20 flex flex-col gap-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-full bg-lime-500/20 text-lime-500"><MessageCircle size={24} /></div>
+            <h3 className="text-xl font-bold text-white">WhatsApp Link Generator</h3>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-[10px] bg-black/20 px-2 py-1 rounded text-lime-400 uppercase font-black tracking-wider mb-2 inline-block">Numero Telefono</label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 font-bold">+</span>
+                <input
+                  type="text"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
+                  placeholder="39 333 1234567"
+                  className="glass-input w-full pl-8 py-4 rounded-xl text-lg font-mono placeholder:text-white/10"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-[10px] bg-black/20 px-2 py-1 rounded text-lime-400 uppercase font-black tracking-wider mb-2 inline-block">Messaggio Predefinito</label>
+              <textarea
+                value={message}
+                onChange={e => setMessage(e.target.value)}
+                placeholder="Ciao! Vorrei maggiori informazioni..."
+                className="glass-input w-full h-32 rounded-xl text-base p-4 resize-none placeholder:text-white/10"
+              />
+            </div>
+          </div>
+
+          <div className="bg-lime-500/10 border border-lime-500/20 p-4 rounded-2xl flex items-center justify-between gap-4 mt-2">
+            <div className="truncate flex-1 font-mono text-xs text-lime-200/70">{waLink}</div>
+            <div className="flex gap-2 shrink-0">
+              <button onClick={() => handleCopy(waLink)} className="p-2 rounded-lg bg-lime-500/20 hover:bg-lime-500/40 text-lime-400 transition-colors" title="Copia"><IconLink size={18} /></button>
+              <button onClick={handleTest} className="p-2 rounded-lg bg-lime-500 hover:bg-lime-400 text-black font-bold transition-colors flex items-center gap-2" title="Apri">
+                <span className="text-xs hidden sm:inline">PROVA</span> <ExternalLink size={18} />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT: PREVIEW & TOOLS */}
+        <div className="flex flex-col gap-8">
+          {/* PREVIEW */}
+          <section className="glass-panel p-6 rounded-[2.5rem] bg-[#0b141a]/80 border-white/5 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-16 bg-[#202c33] flex items-center px-4 gap-3 border-b border-white/5">
+              <div className="w-10 h-10 rounded-full bg-slate-400/20" />
+              <div className="flex flex-col">
+                <div className="w-24 h-3 bg-white/10 rounded mb-1" />
+                <div className="w-16 h-2 bg-white/5 rounded" />
+              </div>
+            </div>
+            <div className="mt-20 flex flex-col items-end space-y-2">
+              {message ? (
+                <div className="bg-[#005c4b] text-[#e9edef] p-3 rounded-tr-none rounded-2xl max-w-[85%] shadow-md text-sm leading-relaxed relative">
+                  {message}
+                  <span className="text-[10px] text-white/40 block text-right mt-1">15:00</span>
+                </div>
+              ) : (
+                <div className="text-center w-full text-white/20 text-sm italic mt-8">Anteprima messaggio...</div>
+              )}
+            </div>
+          </section>
+
+          {/* URL ENCODER */}
+          <section className="glass-panel rounded-[2.5rem] p-8 shadow-2xl bg-emerald-900/5 border-white/10 flex-1 flex flex-col">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-full bg-white/5 text-white/70"><Globe size={20} /></div>
+              <h3 className="text-lg font-bold text-white">URL Encoder / Decoder</h3>
+            </div>
+            <input
+              value={urlInput}
+              onChange={e => setUrlInput(e.target.value)}
+              placeholder="Incolla URL o testo sporco..."
+              className="glass-input w-full p-4 rounded-xl text-sm mb-4 font-mono text-white/70"
+            />
+            <div className="flex gap-2 mb-4">
+              <button onClick={handleUrlEncode} className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors">Encode</button>
+              <button onClick={handleUrlDecode} className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors">Decode</button>
+            </div>
+            <div className="mt-auto bg-black/30 p-4 rounded-xl relative group">
+              <div className="text-xs font-mono text-emerald-400 break-all pr-8 h-20 overflow-y-auto custom-scrollbar">
+                {urlResult || <span className="text-white/10">Risultato...</span>}
+              </div>
+              <button onClick={() => handleCopy(urlResult)} className="absolute top-2 right-2 p-2 text-white/20 hover:text-white transition-colors"><IconLink size={14} /></button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- DASHBOARD (HOME) ---
 
 const DashboardCard = ({
@@ -1081,7 +1225,7 @@ const DashboardCard = ({
 
 // --- MAIN CONTROLLER ---
 
-type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors';
+type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social';
 
 export default function OmniTool() {
   const [view, setView] = useState<ViewState>('dashboard');
@@ -1154,6 +1298,14 @@ export default function OmniTool() {
               desc="Generatore di palette armoniche, conversioni e test di accessibilità."
             />
 
+            <DashboardCard
+              active
+              onClick={() => setView('social')}
+              icon={<div className="text-white"><MessageCircle size={40} strokeWidth={1.5} /></div>}
+              title="WhatsApp & Social"
+              desc="Generatore link rapidi WA, anteprima chat e strumenti URL."
+            />
+
           </div>
         </div>
       ) : view === 'converter' ? (
@@ -1166,8 +1318,10 @@ export default function OmniTool() {
         <VATModule onBack={() => setView('dashboard')} />
       ) : view === 'time' ? (
         <TimeModule onBack={() => setView('dashboard')} />
-      ) : (
+      ) : view === 'colors' ? (
         <ColorLabModule onBack={() => setView('dashboard')} />
+      ) : (
+        <SocialModule onBack={() => setView('dashboard')} />
       )}
     </main>
   );
