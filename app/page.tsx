@@ -1914,7 +1914,7 @@ function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 relative z-10 transition-all duration-500">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto relative z-10 transition-all duration-500">
             {filteredModules.length > 0 ? (
               filteredModules.map((module) => (
                 <div key={module.id} className="animate-scale-in h-full">
