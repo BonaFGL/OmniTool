@@ -2,42 +2,42 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading, MapPin, Compass, Utensils, Thermometer, Scale, Coffee, ChevronLeft, Palette, Search, Shield, Zap, Clock, ChevronRight } from 'lucide-react';
+import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading, MapPin, Compass, Utensils, Thermometer, Scale, Coffee, ChevronLeft, Palette, Search, Shield, Zap, Clock, ChevronRight, Sun, Moon, Languages } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
 
 const IconConverter = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
   </svg>
 );
 
 const IconText = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
   </svg>
 );
 
 const IconSecurity = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
   </svg>
 );
 
 const IconPercent = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
   </svg>
 );
 
 const IconTime = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
 );
 
 const IconColors = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
   </svg>
 );
@@ -1606,20 +1606,20 @@ const DashboardCard = ({
 }) => (
   <button
     onClick={onClick}
-    className={`group relative p-6 rounded-3xl border transition-all duration-500 text-left h-full flex flex-col ${active
-      ? 'bg-white/10 border-white/30 shadow-[0_0_30px_rgba(255,255,255,0.05)] scale-[1.02]'
-      : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.03)]'
+    className={`group relative p-6 rounded-3xl border transition-all duration-500 text-left h-full flex flex-col glass-card w-full ${active
+      ? 'border-[var(--glass-border)] shadow-lg scale-[1.02]'
+      : 'border-[var(--glass-border)] hover:scale-[1.02]'
       }`}
   >
-    <div className={`p-4 rounded-2xl mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${active ? 'bg-white/20' : 'bg-white/5'}`}>
-      {icon}
+    <div className={`p-4 rounded-2xl mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${active ? 'bg-[var(--glass-input-bg)]' : 'bg-[var(--glass-input-bg)]'}`}>
+      <div className="text-adaptive">{icon}</div>
     </div>
-    <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">{title}</h3>
-    <p className="text-sm text-white/40 group-hover:text-white/60 transition-colors leading-relaxed">{desc}</p>
+    <h3 className="text-xl font-bold mb-2 text-adaptive group-hover:text-blue-500 transition-colors">{title}</h3>
+    <p className="text-sm text-adaptive-muted group-hover:text-adaptive transition-colors leading-relaxed h-12 overflow-hidden">{desc}</p>
 
     <div className="mt-auto pt-6 flex justify-end">
-      <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 group-hover:translate-x-1 transition-all">
-        <ChevronLeft className="rotate-180 text-white/40 group-hover:text-white" size={16} />
+      <div className="w-8 h-8 rounded-full bg-[var(--glass-input-bg)] flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white group-hover:translate-x-1 transition-all">
+        <ChevronLeft className="rotate-180 text-adaptive-muted group-hover:text-white" size={16} />
       </div>
     </div>
   </button>
@@ -1629,8 +1629,85 @@ const DashboardCard = ({
 
 type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes' | 'geo';
 
+// --- TRANSLATIONS ---
+
+const translations = {
+  it: {
+    title: "OmniTool",
+    subtitle: "La tua suite professionale di utility digitali.",
+    searchPlaceholder: "Cerca modulo...",
+    noResults: "Nessun modulo trovato per",
+    showAll: "Mostra tutti",
+    footerText: "Suite di utility digitali • 2024",
+    modules: {
+      converter: { title: "Convertitore Universale", desc: "Unità, valute e misure per ogni esigenza." },
+      text: { title: "Analisi Testo", desc: "Statistiche, pulizia e manipolazione stringhe." },
+      security: { title: "Sicurezza & QR", desc: "Password sicure e generazione QR Code." },
+      vat: { title: "Calcolo IVA & Sconto", desc: "Scorporo/Aggiunta IVA e calcolatore sconti." },
+      time: { title: "Timer & Produttività", desc: "Pomodoro timer e gestione tempo." },
+      colors: { title: "Laboratorio Colori", desc: "Generatore di palette armoniche e accessibilità." },
+      social: { title: "WhatsApp & Social", desc: "Generatore link rapidi WA e strumenti URL." },
+      notes: { title: "Note Veloci", desc: "Editor persistente con supporto Markdown." },
+      geo: { title: "Geo & Maps", desc: "Convertitore coordinate e link mappe." },
+    }
+  },
+  en: {
+    title: "OmniTool",
+    subtitle: "Your professional digital utilities suite.",
+    searchPlaceholder: "Search modules...",
+    noResults: "No modules found for",
+    showAll: "Show all",
+    footerText: "Digital Utility Suite • 2024",
+    modules: {
+      converter: { title: "Universal Converter", desc: "Units, currencies, and measurements." },
+      text: { title: "Text Analysis", desc: "Statistics, cleaning, and string manipulation." },
+      security: { title: "Security & QR", desc: "Secure passwords and QR generation." },
+      vat: { title: "VAT & Discount", desc: "Tax calculations and discount tools." },
+      time: { title: "Timer & Productivity", desc: "Pomodoro timer and time management." },
+      colors: { title: "Color Lab", desc: "Harmonic palette generator and accessibility." },
+      social: { title: "WhatsApp & Social", desc: "WA quick links and URL tools." },
+      notes: { title: "Quick Notes", desc: "Persistent editor with Markdown support." },
+      geo: { title: "Geo & Maps", desc: "Coordinate converter and map links." },
+    }
+  }
+};
+
 export default function OmniTool() {
   const [view, setView] = useState<ViewState>('dashboard');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [lang, setLang] = useState<'it' | 'en'>('it');
+
+  const t = translations[lang];
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const toggleLang = () => {
+    setLang(prev => prev === 'it' ? 'en' : 'it');
+  };
+
+  const modules = [
+    { id: 'converter' as ViewState, title: t.modules.converter.title, desc: t.modules.converter.desc, icon: <IconConverter /> },
+    { id: 'text' as ViewState, title: t.modules.text.title, desc: t.modules.text.desc, icon: <IconText /> },
+    { id: 'security' as ViewState, title: t.modules.security.title, desc: t.modules.security.desc, icon: <IconSecurity /> },
+    { id: 'vat' as ViewState, title: t.modules.vat.title, desc: t.modules.vat.desc, icon: <IconPercent /> },
+    { id: 'time' as ViewState, title: t.modules.time.title, desc: t.modules.time.desc, icon: <IconTime /> },
+    { id: 'colors' as ViewState, title: t.modules.colors.title, desc: t.modules.colors.desc, icon: <IconColors /> },
+    { id: 'social' as ViewState, title: t.modules.social.title, desc: t.modules.social.desc, icon: <div className="text-adaptive"><MessageCircle size={40} strokeWidth={1.5} /></div> },
+    { id: 'notes' as ViewState, title: t.modules.notes.title, desc: t.modules.notes.desc, icon: <div className="text-adaptive"><FileText size={40} strokeWidth={1.5} /></div> },
+    { id: 'geo' as ViewState, title: t.modules.geo.title, desc: t.modules.geo.desc, icon: <div className="text-adaptive"><MapPin size={40} strokeWidth={1.5} /></div> },
+  ];
+
+  const filteredModules = modules.filter(m =>
+    m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    m.desc.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <main className="min-h-screen font-sans text-white relative flex flex-col overflow-x-hidden max-w-[100vw]">
@@ -1638,97 +1715,83 @@ export default function OmniTool() {
 
       {view === 'dashboard' ? (
         <div className="max-w-7xl mx-auto p-6 md:p-12 animate-in fade-in slide-in-from-top-4 duration-1000 flex-1">
-          <header className="mb-16 mt-8 md:mt-0 text-center md:text-left">
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-white/40">
-              Omni<span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-600">Tool</span>
-            </h1>
-            <p className="text-lg md:text-2xl text-white/50 font-medium max-w-2xl leading-relaxed mx-auto md:mx-0">
-              La tua suite professionale di utility digitali.<br className="hidden md:block" />
-              Semplice, veloce, sicura.
-            </p>
-          </header>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-            <div className="md:col-span-2 lg:col-span-2">
-              <DashboardCard
-                active
-                onClick={() => setView('converter')}
-                icon={<IconConverter />}
-                title="Convertitore Universale"
-                desc="Strumento scientifico per la conversione di unità. Supporta dati digitali, fisica, energia e misure astronomiche."
-              />
+          <div className="flex flex-col items-center mb-12 space-y-6">
+            <div className="relative text-center">
+              <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-white/40">
+                Omni<span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-600">Tool</span>
+              </h1>
+              <p className="text-lg md:text-2xl text-adaptive-muted font-medium max-w-2xl leading-relaxed mx-auto">
+                {t.subtitle}
+              </p>
             </div>
 
-            <DashboardCard
-              active
-              onClick={() => setView('text')}
-              icon={<IconText />}
-              title="Analisi Testo & Privacy"
-              desc="Statistiche avanzate, conteggio parole e rilevamento automatico dati sensibili (Email, CF, Tel)."
-            />
+            <div className="flex items-center gap-4 w-full max-w-2xl animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <div className="relative flex-1 group">
+                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                  <Search className="w-5 h-5 text-adaptive-muted group-focus-within:text-blue-400 transition-colors" />
+                </div>
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-xl glass-input border border-white/10 focus:ring-2 focus:ring-blue-500/50 placeholder:text-adaptive-muted"
+                />
+              </div>
 
-            <DashboardCard
-              active
-              onClick={() => setView('security')}
-              icon={<IconSecurity />}
-              title="Sicurezza & QR"
-              desc="Generatore password robuste e codici QR istantanei."
-            />
+              <div className="flex gap-2">
+                <button
+                  onClick={toggleLang}
+                  className="p-3 rounded-xl glass-panel hover:bg-white/10 transition-all active:scale-95 text-adaptive flex items-center gap-2 font-bold text-sm"
+                  aria-label="Toggle Language"
+                >
+                  <Languages className="w-5 h-5" />
+                  <span className="hidden sm:inline uppercase">{lang}</span>
+                </button>
 
-            <DashboardCard
-              active
-              onClick={() => setView('vat')}
-              icon={<IconPercent />}
-              title="Calcolo IVA & Sconti"
-              desc="Scorporo e calcolo rapido con aliquote internazionali."
-            />
-
-            <DashboardCard
-              active
-              onClick={() => setView('time')}
-              icon={<IconTime />}
-              title="Timer & Produttività"
-              desc="Timer Pomodoro e cronometro professionale con millisecondi."
-            />
-
-            <DashboardCard
-              active
-              onClick={() => setView('colors')}
-              icon={<IconColors />}
-              title="Laboratorio Colori"
-              desc="Generatore di palette armoniche, conversioni e test di accessibilità."
-            />
-
-            <DashboardCard
-              active
-              onClick={() => setView('social')}
-              icon={<div className="text-white"><MessageCircle size={40} strokeWidth={1.5} /></div>}
-              title="WhatsApp & Social"
-              desc="Generatore link rapidi WA, anteprima chat e strumenti URL."
-            />
-
-            <DashboardCard
-              active
-              onClick={() => setView('notes')}
-              icon={<div className="text-white"><FileText size={40} strokeWidth={1.5} /></div>}
-              title="Note Veloci"
-              desc="Editor persistente, minimalista, con supporto Markdown."
-            />
-
-            <DashboardCard
-              active
-              onClick={() => setView('geo')}
-              icon={<div className="text-white"><MapPin size={40} strokeWidth={1.5} /></div>}
-              title="Geo & Maps"
-              desc="Convertitore coordinate DMS e link rapidi alle mappe."
-            />
-
+                <button
+                  onClick={toggleTheme}
+                  className="p-3 rounded-xl glass-panel hover:bg-white/10 transition-all active:scale-95 text-adaptive"
+                  aria-label="Toggle Theme"
+                >
+                  {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-300" /> : <Moon className="w-5 h-5 text-indigo-400" />}
+                </button>
+              </div>
+            </div>
           </div>
 
-          <footer className="mt-24 pb-12 text-center border-t border-white/5 pt-12">
-            <p className="text-white/20 text-xs font-bold tracking-widest uppercase mb-2">OmniTool Dashboard</p>
-            <p className="text-white/10 text-[10px]">Suite di utility digitali • 2024</p>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 relative z-10 transition-all duration-500">
+            {filteredModules.length > 0 ? (
+              filteredModules.map((module) => (
+                <div key={module.id} className="animate-scale-in h-full">
+                  <DashboardCard
+                    active
+                    onClick={() => setView(module.id)}
+                    icon={module.icon}
+                    title={module.title}
+                    desc={module.desc}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full py-12 text-center animate-fade-in glass-panel rounded-3xl p-8">
+                <div className="inline-block p-4 rounded-full bg-white/5 mb-4">
+                  <Search className="w-8 h-8 text-adaptive-muted" />
+                </div>
+                <p className="text-lg font-medium text-adaptive-muted">{t.noResults} "{searchQuery}"</p>
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="mt-4 px-4 py-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  {t.showAll}
+                </button>
+              </div>
+            )}
+          </div>
+
+          <footer className="mt-24 pb-12 text-center border-t border-[var(--glass-border)] pt-12">
+            <p className="text-adaptive-muted text-xs font-bold tracking-widest uppercase mb-2">OmniTool Dashboard</p>
+            <p className="text-adaptive-muted text-[10px]">{t.footerText}</p>
           </footer>
         </div>
       ) : view === 'converter' ? (
