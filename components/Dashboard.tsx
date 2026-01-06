@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import {
   MessageCircle, Globe, FileText, MapPin, Palette,
-  Sun, Moon, Search, ChefHat, Activity, Dices, Star, Image as ImageIcon
+  Sun, Moon, Search, ChefHat, Activity, Dices, Star, Image as ImageIcon,
+  Mic
 } from 'lucide-react';
 import {
   IconConverter, IconText, IconSecurity, IconPercent,
@@ -25,8 +26,9 @@ import WorldTimeModule from './tools/WorldTimeModule';
 import PaletteExtractorModule from './tools/PaletteExtractorModule';
 import RandomizerModule from './tools/RandomizerModule';
 import WellnessModule from './tools/WellnessModule';
+import SpeechToText from './tools/SpeechToText';
 
-type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes' | 'geo' | 'currency' | 'imageCompressor' | 'worldTime' | 'paletteExtractor' | 'randomizer' | 'wellness';
+type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes' | 'geo' | 'currency' | 'imageCompressor' | 'worldTime' | 'paletteExtractor' | 'randomizer' | 'wellness' | 'speech';
 
 
 
@@ -99,6 +101,7 @@ export default function Dashboard() {
     { id: 'paletteExtractor' as ViewState, title: "Estrattore Palette", desc: "Estrai colori dominanti da immagini.", icon: <Palette className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
     { id: 'randomizer' as ViewState, title: "Randomizer Pro", desc: "Numeri, moneta e scelte casuali.", icon: <Dices className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
     { id: 'wellness' as ViewState, title: "Wellness & BMI", desc: "Calcola BMI e idratazione.", icon: <Activity className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
+    { id: 'speech' as ViewState, title: "Dettato Vocale", desc: "Trasforma la tua voce in testo.", icon: <Mic className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
   ];
 
   const filteredModules = modules.filter(m => {
@@ -162,8 +165,9 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto relative z-10 transition-all duration-500">
             {filteredModules.length > 0 ? (
               filteredModules.map((module) => (
-                <div key={module.id} className={`animate-scale-in h-full ${module.id === 'randomizer' ? 'lg:col-span-2' : ''}`}>
+                <div key={module.id} className="animate-scale-in h-full">
                   <ToolCard
+                    id={module.id}
                     active
                     onClick={() => setView(module.id)}
                     icon={module.icon}
@@ -232,6 +236,8 @@ export default function Dashboard() {
         <RandomizerModule onBack={() => setView('dashboard')} />
       ) : view === 'wellness' ? (
         <WellnessModule onBack={() => setView('dashboard')} />
+      ) : view === 'speech' ? (
+        <SpeechToText onBack={() => setView('dashboard')} />
       ) : (
         <div className="flex flex-col items-center justify-center min-h-screen">
           <h2 className="text-2xl font-bold mb-4">Modulo in caricamento...</h2>
