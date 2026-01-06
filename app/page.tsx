@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink } from 'lucide-react';
+import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
 
@@ -1187,6 +1187,120 @@ const SocialModule = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+// --- MODULE 8: NOTES ---
+
+const NotesModule = ({ onBack }: { onBack: () => void }) => {
+  const [text, setText] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Persistence
+  useEffect(() => {
+    const saved = localStorage.getItem('omnitool_notes');
+    if (saved) setText(saved);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('omnitool_notes', text);
+  }, [text]);
+
+  // Stats
+  const stats = useMemo(() => {
+    const chars = text.length;
+    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    return { chars, words };
+  }, [text]);
+
+  const insertText = (before: string, after: string = '') => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const selAndText = text.slice(start, end);
+
+    const newText = text.slice(0, start) + before + selAndText + after + text.slice(end);
+    setText(newText);
+
+    // Restore focus and cursor (simplified)
+    setTimeout(() => {
+      ta.focus();
+      ta.setSelectionRange(start + before.length, end + before.length);
+    }, 0);
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'nota_omnitool.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleClear = () => {
+    if (confirm("Sei sicuro di voler cancellare tutto? Questa azione è irreversibile.")) {
+      setText('');
+    }
+  };
+
+  return (
+    <div className="animate-fade-in w-full max-w-5xl mx-auto p-4 md:p-8 h-screen-dynamic flex flex-col">
+      <div className="flex items-center gap-4 mb-6 shrink-0">
+        <button onClick={onBack} className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors group">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white/50 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+        <h2 className="text-2xl font-black text-white">Note Veloci</h2>
+      </div>
+
+      <div className="glass-panel rounded-[2rem] flex-1 shadow-2xl bg-slate-900/40 border-slate-500/20 flex flex-col overflow-hidden relative backdrop-blur-xl">
+        {/* TOOLBAR */}
+        <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-white/5 border-b border-white/5">
+          <div className="flex gap-1">
+            <button onClick={() => insertText('**', '**')} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors" title="Grassetto"><Bold size={18} /></button>
+            <button onClick={() => insertText('\n# ')} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors" title="Titolo"><Heading size={18} /></button>
+            <button onClick={() => insertText('\n- ')} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors" title="Elenco"><List size={18} /></button>
+          </div>
+          <div className="flex gap-1">
+            <button onClick={() => navigator.clipboard.writeText(text)} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors flex items-center gap-2" title="Copia">
+              <Copy size={18} /> <span className="text-xs font-bold hidden sm:inline">COPIA</span>
+            </button>
+            <button onClick={handleDownload} className="p-2 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors flex items-center gap-2" title="Scarica TXT">
+              <Download size={18} /> <span className="text-xs font-bold hidden sm:inline">SALVA</span>
+            </button>
+            <button onClick={handleClear} className="p-2 rounded-lg hover:bg-red-500/20 text-red-400/70 hover:text-red-400 transition-colors" title="Pulisci">
+              <Trash2 size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* EDITOR */}
+        <textarea
+          ref={textareaRef}
+          value={text}
+          onChange={e => setText(e.target.value)}
+          placeholder="Scrivi qui i tuoi pensieri..."
+          className="flex-1 w-full bg-transparent p-6 md:p-8 text-lg md:text-xl text-slate-200 placeholder:text-slate-600 outline-none resize-none font-sans leading-relaxed custom-scrollbar selection:bg-indigo-500/50"
+          spellCheck="false"
+        />
+
+        {/* FOOTER STATS */}
+        <div className="bg-black/20 px-6 py-2 text-xs font-mono text-slate-500 flex justify-end gap-6 border-t border-white/5">
+          <span>{stats.words} parole</span>
+          <span>{stats.chars} caratteri</span>
+        </div>
+      </div>
+
+      {/* LOCAL STORAGE INDICATOR */}
+      <div className="text-center mt-2 text-[10px] text-white/20 uppercase font-black tracking-widest">
+        Salvataggio Automatico Attivo
+      </div>
+    </div>
+  );
+};
+
 // --- DASHBOARD (HOME) ---
 
 const DashboardCard = ({
@@ -1225,7 +1339,7 @@ const DashboardCard = ({
 
 // --- MAIN CONTROLLER ---
 
-type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social';
+type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes';
 
 export default function OmniTool() {
   const [view, setView] = useState<ViewState>('dashboard');
@@ -1306,6 +1420,14 @@ export default function OmniTool() {
               desc="Generatore link rapidi WA, anteprima chat e strumenti URL."
             />
 
+            <DashboardCard
+              active
+              onClick={() => setView('notes')}
+              icon={<div className="text-white"><FileText size={40} strokeWidth={1.5} /></div>}
+              title="Note Veloci"
+              desc="Editor persistente, minimalista, con supporto Markdown."
+            />
+
           </div>
         </div>
       ) : view === 'converter' ? (
@@ -1320,8 +1442,10 @@ export default function OmniTool() {
         <TimeModule onBack={() => setView('dashboard')} />
       ) : view === 'colors' ? (
         <ColorLabModule onBack={() => setView('dashboard')} />
-      ) : (
+      ) : view === 'social' ? (
         <SocialModule onBack={() => setView('dashboard')} />
+      ) : (
+        <NotesModule onBack={() => setView('dashboard')} />
       )}
     </main>
   );
