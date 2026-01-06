@@ -8,7 +8,7 @@ import {
   MapPin, Compass, Utensils, Thermometer, Scale, Coffee,
   ChevronLeft, Palette, Search, Shield, Zap, Clock,
   ChevronRight, Sun, Moon, Languages, Coins, RefreshCcw,
-  ArrowLeftRight, Loader2
+  ArrowLeftRight, Loader2, ChefHat
 } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
@@ -1789,6 +1789,7 @@ const translations = {
     searchPlaceholder: "Cerca modulo...",
     noResults: "Nessun modulo trovato per",
     showAll: "Mostra tutti",
+    pastaSugo: "PastaSugo",
     footerText: "Suite di utility digitali • 2024",
     modules: {
       converter: { title: "Convertitore Universale", desc: "Unità, valute e misure per ogni esigenza." },
@@ -1809,6 +1810,7 @@ const translations = {
     searchPlaceholder: "Search modules...",
     noResults: "No modules found for",
     showAll: "Show all",
+    pastaSugo: "PastaSugo",
     footerText: "Digital Utility Suite • 2024",
     modules: {
       converter: { title: "Universal Converter", desc: "Units, currencies, and measurements." },
@@ -1830,8 +1832,14 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [lang, setLang] = useState<'it' | 'en'>('it');
+  const [isPastaSugo, setIsPastaSugo] = useState(false);
 
   const t = translations[lang];
+
+  const togglePastaSugo = () => {
+    setIsPastaSugo(!isPastaSugo);
+    if (!isPastaSugo) setSearchQuery('');
+  };
 
   useEffect(() => {
     document.documentElement.className = theme;
@@ -1858,10 +1866,13 @@ function App() {
     { id: 'currency' as ViewState, title: t.modules.currency.title, desc: t.modules.currency.desc, icon: <IconCurrency /> },
   ];
 
-  const filteredModules = modules.filter(m =>
-    m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    m.desc.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredModules = modules.filter(m => {
+    if (isPastaSugo) {
+      return m.id === 'notes' || m.id === 'colors';
+    }
+    return m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+           m.desc.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   return (
     <main className="min-h-screen font-sans text-adaptive relative flex flex-col overflow-x-hidden max-w-[100vw]">
@@ -1901,6 +1912,15 @@ function App() {
                 >
                   <Languages className="w-5 h-5" />
                   <span className="hidden sm:inline uppercase">{lang}</span>
+                </button>
+
+                <button
+                  onClick={togglePastaSugo}
+                  className={`p-3 rounded-xl glass-panel transition-all active:scale-95 flex items-center gap-2 font-bold text-sm ${isPastaSugo ? 'bg-orange-500/20 text-orange-500 border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.3)]' : 'text-adaptive hover:bg-white/10'}`}
+                  aria-label="Toggle PastaSugo Mode"
+                >
+                  <ChefHat className={`w-5 h-5 ${isPastaSugo ? 'animate-bounce' : ''}`} />
+                  <span className="hidden md:inline uppercase">{t.pastaSugo}</span>
                 </button>
 
                 <button
