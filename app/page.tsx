@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading, MapPin, Compass } from 'lucide-react';
+import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading, MapPin, Compass, Utensils, Thermometer, Scale, Coffee } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
 
@@ -1525,6 +1525,182 @@ const GeoModule = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+// --- MODULE 10: KITCHEN MASTER ---
+
+const KitchenModule = ({ onBack }: { onBack: () => void }) => {
+  const [ingredient, setIngredient] = useState('flour');
+  const [amount, setAmount] = useState('1');
+  const [unit, setUnit] = useState('cup');
+  const [temp, setTemp] = useState('180');
+  const [isCelsius, setIsCelsius] = useState(true);
+
+  // Densità g/ml approssimative
+  const DENSITIES: Record<string, number> = {
+    flour: 0.53,      // Farina 00
+    sugar: 0.85,      // Zucchero semolato
+    brown_sugar: 0.9, // Zucchero canna
+    rice: 0.85,       // Riso crudo
+    oil: 0.92,        // Olio
+    milk: 1.03,       // Latte
+    water: 1.0,       // Acqua
+    cocoa: 0.5,       // Cacao in polvere
+    butter: 0.91      // Burro
+  };
+
+  const INGREDIENT_NAMES: Record<string, string> = {
+    flour: 'Farina 00',
+    sugar: 'Zucchero Semolato',
+    brown_sugar: 'Zucchero di Canna',
+    rice: 'Riso',
+    oil: 'Olio',
+    milk: 'Latte',
+    water: 'Acqua',
+    cocoa: 'Cacao Amaro',
+    butter: 'Burro'
+  };
+
+  const UNITS: Record<string, number> = {
+    cup: 240,
+    tbsp: 15,
+    tsp: 5,
+    ml: 1
+  };
+
+  const convertedWeight = useMemo(() => {
+    const val = parseFloat(amount);
+    if (isNaN(val)) return 0;
+    const ml = val * UNITS[unit];
+    const grams = ml * DENSITIES[ingredient];
+    return Math.round(grams);
+  }, [amount, unit, ingredient]);
+
+  const convertedTemp = useMemo(() => {
+    const val = parseFloat(temp);
+    if (isNaN(val)) return '-';
+    if (isCelsius) {
+      // C to F
+      return Math.round((val * 9 / 5) + 32) + ' °F';
+    } else {
+      // F to C
+      return Math.round((val - 32) * 5 / 9) + ' °C';
+    }
+  }, [temp, isCelsius]);
+
+  return (
+    <div className="animate-fade-in w-full max-w-5xl mx-auto p-4 md:p-8">
+      <div className="flex items-center gap-4 mb-8">
+        <button onClick={onBack} className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors group">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white/50 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+        <h2 className="text-2xl font-black text-white">Kitchen Master</h2>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* WEIGHT CONVERTER */}
+        <section className="glass-panel p-8 rounded-[2.5rem] bg-orange-900/10 border-orange-500/20 flex flex-col gap-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+            <Scale size={150} className="text-orange-200" />
+          </div>
+
+          <h3 className="text-xl font-bold text-white flex items-center gap-2 relative z-10">
+            <Utensils className="text-orange-400" /> Convertitore Cucina
+          </h3>
+
+          <div className="space-y-4 relative z-10">
+            <div>
+              <label className="text-[10px] uppercase font-black text-orange-200/50 mb-1 block">Ingrediente</label>
+              <select
+                value={ingredient}
+                onChange={e => setIngredient(e.target.value)}
+                className="glass-input w-full p-4 rounded-xl text-lg font-bold text-white appearance-none cursor-pointer bg-white/5"
+              >
+                {Object.keys(DENSITIES).map(k => (
+                  <option key={k} value={k} className="bg-slate-800">{INGREDIENT_NAMES[k]}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-[10px] uppercase font-black text-orange-200/50 mb-1 block">Quantità</label>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                  className="glass-input w-full p-4 rounded-xl text-xl font-bold font-mono text-center"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] uppercase font-black text-orange-200/50 mb-1 block">Unità</label>
+                <select
+                  value={unit}
+                  onChange={e => setUnit(e.target.value)}
+                  className="glass-input w-full p-4 rounded-xl text-lg font-bold text-white appearance-none cursor-pointer bg-white/5 text-center"
+                >
+                  <option value="cup" className="bg-slate-800">Tazze (Cups)</option>
+                  <option value="tbsp" className="bg-slate-800">Cucchiai (Tbsp)</option>
+                  <option value="tsp" className="bg-slate-800">Cucchiaini (Tsp)</option>
+                  <option value="ml" className="bg-slate-800">Millilitri (ml)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-4 bg-orange-500/10 border border-orange-500/20 p-6 rounded-2xl text-center">
+              <span className="block text-xs uppercase font-black text-orange-300 mb-2">Peso Stimato</span>
+              <span className="text-5xl font-black text-white">{convertedWeight} <span className="text-2xl text-white/50">g</span></span>
+            </div>
+          </div>
+        </section>
+
+        {/* TEMPERATURE */}
+        <div className="flex flex-col gap-8">
+          <section className="glass-panel p-8 rounded-[2.5rem] bg-amber-900/10 border-amber-500/20 flex flex-col flex-1 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+              <Thermometer size={120} className="text-amber-200" />
+            </div>
+
+            <h3 className="text-xl font-bold text-white flex items-center gap-2 relative z-10 mb-6">
+              <Thermometer className="text-amber-400" /> Temperatura
+            </h3>
+
+            <div className="flex flex-col gap-6 items-center justify-center flex-1 relative z-10">
+              <div className="flex items-center gap-4 bg-black/20 p-2 rounded-full">
+                <button
+                  onClick={() => setIsCelsius(true)}
+                  className={`px-6 py-2 rounded-full text-xs font-black transition-all ${isCelsius ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'text-white/30 hover:text-white'}`}
+                >
+                  °C to °F
+                </button>
+                <button
+                  onClick={() => setIsCelsius(false)}
+                  className={`px-6 py-2 rounded-full text-xs font-black transition-all ${!isCelsius ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'text-white/30 hover:text-white'}`}
+                >
+                  °F to °C
+                </button>
+              </div>
+
+              <div className="flex items-center gap-4 w-full">
+                <input
+                  type="number"
+                  value={temp}
+                  onChange={e => setTemp(e.target.value)}
+                  className="glass-input flex-1 p-6 rounded-2xl text-4xl font-black text-center"
+                />
+                <div className="text-2xl text-white/30 font-bold">→</div>
+                <div className="flex-1 bg-white/5 p-6 rounded-2xl text-4xl font-black text-center text-amber-200 border border-white/5">
+                  {convertedTemp}
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- DASHBOARD (HOME) ---
 
 const DashboardCard = ({
@@ -1563,7 +1739,7 @@ const DashboardCard = ({
 
 // --- MAIN CONTROLLER ---
 
-type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes' | 'geo';
+type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes' | 'geo' | 'kitchen';
 
 export default function OmniTool() {
   const [view, setView] = useState<ViewState>('dashboard');
@@ -1660,6 +1836,14 @@ export default function OmniTool() {
               desc="Convertitore coordinate DMS e link rapidi alle mappe."
             />
 
+            <DashboardCard
+              active
+              onClick={() => setView('kitchen')}
+              icon={<div className="text-white"><Utensils size={40} strokeWidth={1.5} /></div>}
+              title="Kitchen Master"
+              desc="Conversioni culinarie (Cup/Gr), densità ingredienti e temperature forno."
+            />
+
           </div>
         </div>
       ) : view === 'converter' ? (
@@ -1678,8 +1862,10 @@ export default function OmniTool() {
         <SocialModule onBack={() => setView('dashboard')} />
       ) : view === 'notes' ? (
         <NotesModule onBack={() => setView('dashboard')} />
-      ) : (
+      ) : view === 'geo' ? (
         <GeoModule onBack={() => setView('dashboard')} />
+      ) : (
+        <KitchenModule onBack={() => setView('dashboard')} />
       )}
     </main>
   );
