@@ -7,7 +7,7 @@ import {
   FileText, Trash2, Download, Copy, Bold, List, Heading,
   MapPin, Compass, Utensils, Thermometer, Scale, Coffee,
   ChevronLeft, Palette, Search, Shield, Zap, Clock,
-  ChevronRight, Sun, Moon, Languages, Coins, RefreshCcw,
+  ChevronRight, Sun, Moon, Coins, RefreshCcw,
   ArrowLeftRight, Loader2, ChefHat, Image as IconImage, Minimize, UploadCloud,
   Dices, RotateCw, HelpCircle, Activity, Droplets, Star
 } from 'lucide-react';
@@ -255,7 +255,7 @@ const SelectOptGroups = ({ units, value, onChange, className }: { units: UnitDef
 
 // --- MODULE 1: CONVERTER ---
 
-const UnitConverterModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const UnitConverterModule = ({ onBack }: { onBack: () => void }) => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('massa');
   const [inputValue, setInputValue] = useState<string>('');
   const [sourceUnitId, setSourceUnitId] = useState<string>('');
@@ -327,7 +327,7 @@ const UnitConverterModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.converter.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Convertitore Universale</h2>
       </div>
 
       <div className="glass-panel rounded-[2.5rem] p-6 shadow-2xl flex flex-col gap-8">
@@ -396,7 +396,7 @@ const UnitConverterModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 2: TEXT ANALYZER ---
 
-const TextAnalyzerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const TextAnalyzerModule = ({ onBack }: { onBack: () => void }) => {
   const [text, setText] = useState('');
 
   const regexEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
@@ -449,7 +449,7 @@ const TextAnalyzerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.text.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Analisi Testo</h2>
       </div>
 
       <div className="glass-panel rounded-[2.5rem] p-6 shadow-2xl bg-fuchsia-900/10 border-fuchsia-500/20 shadow-sm">
@@ -499,7 +499,7 @@ const TextAnalyzerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 3: SECURITY & QR ---
 
-const SecurityModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const SecurityModule = ({ onBack }: { onBack: () => void }) => {
   const [pwdLength, setPwdLength] = useState(16);
   const [pwdOpts, setPwdOpts] = useState({ upper: true, lower: true, num: true, sym: true });
   const [password, setPassword] = useState('');
@@ -561,7 +561,7 @@ const SecurityModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.security.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Sicurezza & QR</h2>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
@@ -620,7 +620,7 @@ const SecurityModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 4: VAT & DISCOUNTS ---
 
-const VATModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const VATModule = ({ onBack }: { onBack: () => void }) => {
   const [vatAmount, setVatAmount] = useState('');
   const [vatRate, setVatRate] = useState(22);
   const [vatMode, setVatMode] = useState<'add' | 'remove'>('add');
@@ -663,7 +663,7 @@ const VATModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.vat.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Calcolo IVA & Sconto</h2>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
@@ -720,7 +720,7 @@ const VATModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 5: TIMER & PRODUCTIVITY ---
 
-const TimeModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const TimeModule = ({ onBack }: { onBack: () => void }) => {
   const [activeTab, setActiveTab] = useState<'stopwatch' | 'timer'>('timer');
 
   // Stopwatch
@@ -810,7 +810,7 @@ const TimeModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.time.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Timer & Produttività</h2>
       </div>
 
       <div className="flex justify-center mb-8">
@@ -890,7 +890,7 @@ const TimeModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 6: COLOR LAB ---
 
-const ColorLabModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const ColorLabModule = ({ onBack }: { onBack: () => void }) => {
   const [hex, setHex] = useState('#6366f1');
   const [rgb, setRgb] = useState({ r: 99, g: 102, b: 241 });
   const [hsl, setHsl] = useState({ h: 239, s: 84, l: 67 });
@@ -1007,7 +1007,7 @@ const ColorLabModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.colors.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Laboratorio Colori</h2>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
@@ -1126,7 +1126,7 @@ const ColorLabModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 7: WHATSAPP & SOCIAL ---
 
-const SocialModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const SocialModule = ({ onBack }: { onBack: () => void }) => {
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
 
@@ -1168,7 +1168,7 @@ const SocialModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.social.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">WhatsApp & Social</h2>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
@@ -1268,7 +1268,7 @@ const SocialModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 8: NOTES ---
 
-const NotesModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const NotesModule = ({ onBack }: { onBack: () => void }) => {
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [archive, setArchive] = useState<any[]>([]);
@@ -1362,7 +1362,7 @@ const NotesModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.notes.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Note Veloci</h2>
       </div>
 
       <div className="glass-panel rounded-[2.5rem] shadow-2xl bg-slate-900/40 border-slate-500/20 flex flex-col overflow-hidden relative backdrop-blur-xl shadow-sm">
@@ -1459,7 +1459,7 @@ const NotesModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 10: CURRENCY EXCHANGE ---
 
-const CurrencyModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const CurrencyModule = ({ onBack }: { onBack: () => void }) => {
   const [amount, setAmount] = useState('1');
   const [from, setFrom] = useState('EUR');
   const [to, setTo] = useState('USD');
@@ -1482,13 +1482,13 @@ const CurrencyModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
         setError('');
       } catch (err) {
         console.error(err);
-        setError(t.modules.currency.error || "Errore caricamento tassi");
+        setError("Errore caricamento tassi");
       } finally {
         setLoading(false);
       }
     };
     fetchRates();
-  }, [t]);
+  }, []);
 
   const convertedValue = useMemo(() => {
     const val = parseFloat(amount);
@@ -1516,7 +1516,7 @@ const CurrencyModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.currency.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Cambio Valute</h2>
       </div>
 
       <div className="glass-panel rounded-[2.5rem] p-8 md:p-12 shadow-2xl bg-emerald-900/10 border-emerald-500/20 shadow-sm relative overflow-hidden">
@@ -1612,7 +1612,7 @@ const CurrencyModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 9: GEO & MAPS ---
 
-const GeoModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const GeoModule = ({ onBack }: { onBack: () => void }) => {
   const [lat, setLat] = useState('');
   const [lon, setLon] = useState('');
 
@@ -1673,7 +1673,7 @@ const GeoModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.geo.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Geo & Maps</h2>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -1799,7 +1799,7 @@ const DashboardCard = ({
 
 // --- MODULE 11: IMAGE COMPRESSOR ---
 
-const ImageCompressorModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const ImageCompressorModule = ({ onBack }: { onBack: () => void }) => {
   const [image, setImage] = useState<string | null>(null);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
@@ -1887,7 +1887,7 @@ const ImageCompressorModule = ({ onBack, t }: { onBack: () => void, t: any }) =>
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.imageCompressor.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Compressore Immagini</h2>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
@@ -1911,7 +1911,7 @@ const ImageCompressorModule = ({ onBack, t }: { onBack: () => void, t: any }) =>
               <UploadCloud size={48} />
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-bold text-adaptive mb-2">{t.modules.imageCompressor.upload}</h3>
+              <h3 className="text-xl font-bold text-adaptive mb-2">Carica immagine</h3>
               <p className="text-adaptive-muted">Drag & Drop or <span className="text-indigo-400 cursor-pointer hover:underline" onClick={() => fileInputRef.current?.click()}>browse</span></p>
               <p className="text-xs text-adaptive-muted mt-2">JPG, PNG (Max 10MB)</p>
             </div>
@@ -1936,7 +1936,7 @@ const ImageCompressorModule = ({ onBack, t }: { onBack: () => void, t: any }) =>
               <div className="space-y-6">
                  <div>
                    <div className="flex justify-between mb-2">
-                     <span className="text-xs font-bold uppercase text-adaptive-muted">{t.modules.imageCompressor.quality}</span>
+                     <span className="text-xs font-bold uppercase text-adaptive-muted">Qualità</span>
                      <span className="text-xs font-bold text-indigo-500">{Math.round(quality * 100)}%</span>
                    </div>
                    <input 
@@ -1952,11 +1952,11 @@ const ImageCompressorModule = ({ onBack, t }: { onBack: () => void, t: any }) =>
 
                  <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 rounded-2xl bg-[var(--glass-input-bg)] border border-[var(--glass-border)] text-center">
-                       <span className="block text-[10px] uppercase font-bold text-adaptive-muted mb-1">{t.modules.imageCompressor.original}</span>
+                       <span className="block text-[10px] uppercase font-bold text-adaptive-muted mb-1">Peso originale</span>
                        <span className="text-lg font-mono font-bold text-adaptive">{formatBytes(originalSize)}</span>
                     </div>
                     <div className="p-4 rounded-2xl bg-[var(--glass-input-bg)] border border-[var(--glass-border)] text-center relative overflow-hidden">
-                       <span className="block text-[10px] uppercase font-bold text-adaptive-muted mb-1">{t.modules.imageCompressor.estimated}</span>
+                       <span className="block text-[10px] uppercase font-bold text-adaptive-muted mb-1">Peso stimato</span>
                        <span className="text-lg font-mono font-bold text-indigo-500">{formatBytes(compressedSize)}</span>
                        <div className="absolute bottom-0 left-0 h-1 bg-green-500 transition-all" style={{ width: `${(compressedSize / originalSize) * 100}%` }} />
                     </div>
@@ -1974,7 +1974,7 @@ const ImageCompressorModule = ({ onBack, t }: { onBack: () => void, t: any }) =>
                 onClick={downloadImage}
                 className="mt-auto w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold shadow-lg shadow-indigo-900/20 transition-all flex items-center justify-center gap-2"
               >
-                <Download size={20} /> {t.modules.imageCompressor.download}
+                <Download size={20} /> Scarica
               </button>
             </div>
           </>
@@ -2001,7 +2001,7 @@ const CITIES = [
   { id: 'mexico', label: 'Città del Messico', zone: 'America/Mexico_City' },
 ];
 
-const WorldTimeModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const WorldTimeModule = ({ onBack }: { onBack: () => void }) => {
   const [time, setTime] = useState<number>(Date.now());
   const [offset, setOffset] = useState<number>(0);
   const [synced, setSynced] = useState(false);
@@ -2055,8 +2055,8 @@ const WorldTimeModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.worldTime.title}</h2>
-        {synced && <span className="text-[10px] uppercase font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-lg border border-green-500/20">{t.modules.worldTime.synced}</span>}
+        <h2 className="text-2xl font-black text-adaptive">World Time Pro</h2>
+        {synced && <span className="text-[10px] uppercase font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-lg border border-green-500/20">Sincronizzato via NTP</span>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2084,7 +2084,7 @@ const WorldTimeModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 13: PALETTE EXTRACTOR ---
 
-const PaletteExtractorModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const PaletteExtractorModule = ({ onBack }: { onBack: () => void }) => {
   const [image, setImage] = useState<string | null>(null);
   const [palette, setPalette] = useState<string[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -2179,7 +2179,7 @@ const PaletteExtractorModule = ({ onBack, t }: { onBack: () => void, t: any }) =
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.paletteExtractor.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Estrattore Palette</h2>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
@@ -2203,7 +2203,7 @@ const PaletteExtractorModule = ({ onBack, t }: { onBack: () => void, t: any }) =
               <UploadCloud size={48} />
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-bold text-adaptive mb-2">{t.modules.paletteExtractor.upload}</h3>
+              <h3 className="text-xl font-bold text-adaptive mb-2">Carica immagine per estrarre colori</h3>
               <p className="text-adaptive-muted">Drag & Drop or <span className="text-rose-400 cursor-pointer hover:underline" onClick={() => fileInputRef.current?.click()}>browse</span></p>
               <p className="text-xs text-adaptive-muted mt-2">JPG, PNG</p>
             </div>
@@ -2222,7 +2222,7 @@ const PaletteExtractorModule = ({ onBack, t }: { onBack: () => void, t: any }) =
 
             <div className="glass-panel p-8 rounded-[2.5rem] bg-gradient-to-br from-rose-500/10 to-orange-400/10 border-rose-500/20 flex flex-col gap-6 shadow-sm">
               <h3 className="text-xl font-bold text-adaptive flex items-center gap-2">
-                <Palette className="text-rose-500" /> {t.modules.paletteExtractor.extracted}
+                <Palette className="text-rose-500" /> Palette estratta
               </h3>
               
               <div className="grid grid-cols-3 gap-4">
@@ -2244,7 +2244,7 @@ const PaletteExtractorModule = ({ onBack, t }: { onBack: () => void, t: any }) =
                       {color}
                     </code>
                     {copiedColor === color && (
-                      <span className="text-[10px] uppercase font-bold text-green-500 animate-bounce">{t.modules.paletteExtractor.copied}</span>
+                      <span className="text-[10px] uppercase font-bold text-green-500 animate-bounce">Copiato!</span>
                     )}
                   </div>
                 ))}
@@ -2259,7 +2259,7 @@ const PaletteExtractorModule = ({ onBack, t }: { onBack: () => void, t: any }) =
 
 // --- MODULE 15: RANDOMIZER PRO ---
 
-const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const RandomizerModule = ({ onBack }: { onBack: () => void }) => {
   const [min, setMin] = useState<number>(1);
   const [max, setMax] = useState<number>(100);
   const [numberResult, setNumberResult] = useState<number | null>(null);
@@ -2275,7 +2275,7 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
   };
 
   const flipCoin = () => {
-    const result = Math.random() < 0.5 ? t.modules.randomizer.heads : t.modules.randomizer.tails;
+    const result = Math.random() < 0.5 ? 'Testa' : 'Croce';
     setCoinResult(result);
     triggerShake('coin');
   };
@@ -2301,7 +2301,7 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.randomizer.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Randomizer Pro</h2>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
@@ -2311,12 +2311,12 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <div className={`p-3 rounded-full bg-emerald-500/10 text-emerald-500 ${shaking === 'number' ? 'animate-bounce' : ''}`}>
               <Dices size={24} />
             </div>
-            <h3 className="text-lg font-bold text-adaptive">{t.modules.randomizer.numberGen}</h3>
+            <h3 className="text-lg font-bold text-adaptive">Generatore Numeri</h3>
           </div>
 
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-bold uppercase text-adaptive-muted mb-1 block">{t.modules.randomizer.min}</label>
+              <label className="text-xs font-bold uppercase text-adaptive-muted mb-1 block">Minimo</label>
               <input
                 type="number"
                 value={min}
@@ -2325,7 +2325,7 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
               />
             </div>
             <div>
-              <label className="text-xs font-bold uppercase text-adaptive-muted mb-1 block">{t.modules.randomizer.max}</label>
+              <label className="text-xs font-bold uppercase text-adaptive-muted mb-1 block">Massimo</label>
               <input
                 type="number"
                 value={max}
@@ -2339,12 +2339,12 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             onClick={generateNumber}
             className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-lg transition-all mt-2"
           >
-            {t.modules.randomizer.generate}
+            Genera
           </button>
 
           {numberResult !== null && (
             <div className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-center animate-scale-in">
-              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">{t.modules.randomizer.result}</span>
+              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">Risultato</span>
               <span className="text-4xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{numberResult}</span>
             </div>
           )}
@@ -2356,7 +2356,7 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <div className={`p-3 rounded-full bg-teal-500/10 text-teal-500 ${shaking === 'coin' ? 'animate-spin' : ''}`}>
               <RotateCw size={24} />
             </div>
-            <h3 className="text-lg font-bold text-adaptive">{t.modules.randomizer.coinFlip}</h3>
+            <h3 className="text-lg font-bold text-adaptive">Lancio Moneta</h3>
           </div>
 
           <div className="flex-1 flex items-center justify-center py-8">
@@ -2373,7 +2373,7 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             onClick={flipCoin}
             className="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white rounded-xl font-bold shadow-lg transition-all"
           >
-            {t.modules.randomizer.flip}
+            Lancia
           </button>
         </div>
 
@@ -2383,11 +2383,11 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <div className={`p-3 rounded-full bg-emerald-500/10 text-emerald-500 ${shaking === 'choice' ? 'animate-pulse' : ''}`}>
               <HelpCircle size={24} />
             </div>
-            <h3 className="text-lg font-bold text-adaptive">{t.modules.randomizer.quickChoice}</h3>
+            <h3 className="text-lg font-bold text-adaptive">Scelta Rapida</h3>
           </div>
 
           <div>
-            <label className="text-xs font-bold uppercase text-adaptive-muted mb-1 block">{t.modules.randomizer.options}</label>
+            <label className="text-xs font-bold uppercase text-adaptive-muted mb-1 block">Opzioni (separate da virgola)</label>
             <textarea
               value={options}
               onChange={(e) => setOptions(e.target.value)}
@@ -2401,12 +2401,12 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             onClick={chooseRandom}
             className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-lg transition-all"
           >
-            {t.modules.randomizer.chooseForMe}
+            Scegli per me
           </button>
 
           {choiceResult && (
             <div className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-center animate-scale-in">
-              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">{t.modules.randomizer.result}</span>
+              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">Risultato</span>
               <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">{choiceResult}</span>
             </div>
           )}
@@ -2418,7 +2418,7 @@ const RandomizerModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 // --- MODULE 16: WELLNESS & BMI ---
 
-const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
+const WellnessModule = ({ onBack }: { onBack: () => void }) => {
   const [height, setHeight] = useState<number>(170);
   const [weight, setWeight] = useState<number>(70);
 
@@ -2428,10 +2428,10 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
   };
 
   const getBMICategory = (bmi: number) => {
-    if (bmi < 18.5) return { label: t.modules.wellness.underweight, color: 'text-blue-400', bg: 'bg-blue-500/20', border: 'border-blue-500/30' };
-    if (bmi < 25) return { label: t.modules.wellness.normal, color: 'text-green-400', bg: 'bg-green-500/20', border: 'border-green-500/30' };
-    if (bmi < 30) return { label: t.modules.wellness.overweight, color: 'text-yellow-400', bg: 'bg-yellow-500/20', border: 'border-yellow-500/30' };
-    return { label: t.modules.wellness.obese, color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500/30' };
+    if (bmi < 18.5) return { label: 'Sottopeso', color: 'text-blue-400', bg: 'bg-blue-500/20', border: 'border-blue-500/30' };
+    if (bmi < 25) return { label: 'Normale', color: 'text-green-400', bg: 'bg-green-500/20', border: 'border-green-500/30' };
+    if (bmi < 30) return { label: 'Sovrappeso', color: 'text-yellow-400', bg: 'bg-yellow-500/20', border: 'border-yellow-500/30' };
+    return { label: 'Obeso', color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500/30' };
   };
 
   const calculateWater = () => {
@@ -2451,7 +2451,7 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h2 className="text-2xl font-black text-adaptive">{t.modules.wellness.title}</h2>
+        <h2 className="text-2xl font-black text-adaptive">Wellness & BMI</h2>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -2466,7 +2466,7 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
           <div className="space-y-4">
             <div>
-              <label className="text-xs font-bold uppercase text-adaptive-muted mb-2 block">{t.modules.wellness.height}</label>
+              <label className="text-xs font-bold uppercase text-adaptive-muted mb-2 block">Altezza (cm)</label>
               <input
                 type="number"
                 value={height}
@@ -2475,7 +2475,7 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
               />
             </div>
             <div>
-              <label className="text-xs font-bold uppercase text-adaptive-muted mb-2 block">{t.modules.wellness.weight}</label>
+              <label className="text-xs font-bold uppercase text-adaptive-muted mb-2 block">Peso (kg)</label>
               <input
                 type="number"
                 value={weight}
@@ -2488,7 +2488,7 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
           {bmi > 0 && (
             <div className="mt-4 space-y-4">
               <div className={`p-6 rounded-2xl ${category.bg} border ${category.border} text-center`}>
-                <span className="text-xs uppercase font-bold text-adaptive-muted block mb-2">{t.modules.wellness.yourBMI}</span>
+                <span className="text-xs uppercase font-bold text-adaptive-muted block mb-2">Il tuo BMI</span>
                 <span className={`text-5xl font-black ${category.color} font-mono block mb-2`}>{bmi.toFixed(1)}</span>
                 <span className={`text-lg font-bold ${category.color}`}>{category.label}</span>
               </div>
@@ -2517,7 +2517,7 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             <div className="p-3 rounded-full bg-blue-500/10 text-blue-500">
               <Droplets size={28} />
             </div>
-            <h3 className="text-xl font-bold text-adaptive">Hydration Tracker</h3>
+            <h3 className="text-xl font-bold text-adaptive">Idratazione</h3>
           </div>
 
           <div className="flex-1 flex flex-col items-center justify-center py-8">
@@ -2528,7 +2528,7 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
             </div>
 
             <div className="mt-8 text-center space-y-2">
-              <p className="text-xs uppercase font-bold text-adaptive-muted">{t.modules.wellness.waterPerDay}</p>
+              <p className="text-xs uppercase font-bold text-adaptive-muted">Litri d'acqua al giorno</p>
               <p className="text-6xl font-black text-blue-500 font-mono">{water}</p>
               <p className="text-sm font-bold text-adaptive-muted">Litri</p>
             </div>
@@ -2549,168 +2549,15 @@ const WellnessModule = ({ onBack, t }: { onBack: () => void, t: any }) => {
 
 type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes' | 'geo' | 'currency' | 'imageCompressor' | 'worldTime' | 'paletteExtractor' | 'randomizer' | 'wellness';
 
-// --- TRANSLATIONS ---
 
-const translations = {
-  it: {
-    title: "OmniTool",
-    subtitle: "La tua suite professionale di utility digitali.",
-    searchPlaceholder: "Cerca modulo...",
-    noResults: "Nessun modulo trovato per",
-    showAll: "Mostra tutti",
-    pastaSugo: "PastaSugo",
-    favorites: "Preferiti",
-    noFavorites: "Non hai ancora aggiunto preferiti. Clicca sulla stella nei moduli per aggiungerli qui!",
-    footerText: "Suite di utility digitali • 2024",
-    modules: {
-      converter: { title: "Convertitore Universale", desc: "Unità, valute e misure per ogni esigenza." },
-      text: { title: "Analisi Testo", desc: "Statistiche, pulizia e manipolazione stringhe." },
-      security: { title: "Sicurezza & QR", desc: "Password sicure e generazione QR Code." },
-      vat: { title: "Calcolo IVA & Sconto", desc: "Scorporo/Aggiunta IVA e calcolatore sconti." },
-      time: { title: "Timer & Produttività", desc: "Pomodoro timer e gestione tempo." },
-      colors: { title: "Laboratorio Colori", desc: "Generatore di palette armoniche e accessibilità." },
-      social: { title: "WhatsApp & Social", desc: "Generatore link rapidi WA e strumenti URL." },
-      notes: { title: "Note Veloci", desc: "Editor persistente con supporto Markdown." },
-      geo: { title: "Geo & Maps", desc: "Convertitore coordinate e link mappe." },
-      currency: { title: "Cambio Valute", desc: "Tassi di cambio in tempo reale." },
-      imageCompressor: {
-        title: "Compressore Immagini",
-        desc: "Ottimizza JPG/PNG in locale.",
-        upload: "Carica immagine",
-        quality: "Qualità",
-        original: "Peso originale",
-        estimated: "Peso stimato",
-        download: "Scarica"
-      },
-      worldTime: {
-        title: "World Time Pro",
-        desc: "Orologio mondiale in tempo reale.",
-        sync: "Sincronizzazione...",
-        synced: "Sincronizzato via NTP"
-      },
-      paletteExtractor: {
-        title: "Estrattore Palette",
-        desc: "Estrai colori dominanti da immagini.",
-        upload: "Carica immagine per estrarre colori",
-        extracted: "Palette estratta",
-        copied: "Copiato!"
-      },
-      randomizer: {
-        title: "Randomizer Pro",
-        desc: "Numeri, moneta e scelte casuali.",
-        numberGen: "Generatore Numeri",
-        min: "Minimo",
-        max: "Massimo",
-        generate: "Genera",
-        result: "Risultato",
-        coinFlip: "Lancio Moneta",
-        flip: "Lancia",
-        heads: "Testa",
-        tails: "Croce",
-        quickChoice: "Scelta Rapida",
-        options: "Opzioni (separate da virgola)",
-        chooseForMe: "Scegli per me"
-      },
-      wellness: {
-        title: "Wellness & BMI",
-        desc: "Calcola BMI e idratazione.",
-        height: "Altezza (cm)",
-        weight: "Peso (kg)",
-        yourBMI: "Il tuo BMI",
-        waterPerDay: "Litri d'acqua al giorno",
-        underweight: "Sottopeso",
-        normal: "Normale",
-        overweight: "Sovrappeso",
-        obese: "Obeso"
-      }
-    }
-  },
-  en: {
-    title: "OmniTool",
-    subtitle: "Your professional digital utilities suite.",
-    searchPlaceholder: "Search modules...",
-    noResults: "No modules found for",
-    showAll: "Show all",
-    pastaSugo: "PastaSugo",
-    favorites: "Favorites",
-    noFavorites: "You haven't added any favorites yet. Click the star on modules to add them here!",
-    footerText: "Digital Utility Suite • 2024",
-    modules: {
-      converter: { title: "Universal Converter", desc: "Units, currencies, and measurements." },
-      text: { title: "Text Analysis", desc: "Statistics, cleaning, and string manipulation." },
-      security: { title: "Security & QR", desc: "Secure passwords and QR generation." },
-      vat: { title: "VAT & Discount", desc: "Tax calculations and discount tools." },
-      time: { title: "Timer & Productivity", desc: "Pomodoro timer and time management." },
-      colors: { title: "Color Lab", desc: "Harmonic palette generator and accessibility." },
-      social: { title: "WhatsApp & Social", desc: "WA quick links and URL tools." },
-      notes: { title: "Quick Notes", desc: "Persistent editor with Markdown support." },
-      geo: { title: "Geo & Maps", desc: "Coordinate converter and map links." },
-      currency: { title: "Currency Exchange", desc: "Real-time international exchange rates." },
-      imageCompressor: {
-        title: "Image Compressor",
-        desc: "Optimize JPG/PNG locally.",
-        upload: "Upload image",
-        quality: "Quality",
-        original: "Original size",
-        estimated: "Estimated size",
-        download: "Download"
-      },
-      worldTime: {
-        title: "World Time Pro",
-        desc: "Real-time world clock.",
-        sync: "Synchronizing...",
-        synced: "Synced via NTP"
-      },
-      paletteExtractor: {
-        title: "Palette Extractor",
-        desc: "Extract dominant colors from images.",
-        upload: "Upload image to extract colors",
-        extracted: "Extracted palette",
-        copied: "Copied!"
-      },
-      randomizer: {
-        title: "Randomizer Pro",
-        desc: "Numbers, coin flip, and quick choices.",
-        numberGen: "Number Generator",
-        min: "Minimum",
-        max: "Maximum",
-        generate: "Generate",
-        result: "Result",
-        coinFlip: "Coin Flip",
-        flip: "Flip",
-        heads: "Heads",
-        tails: "Tails",
-        quickChoice: "Quick Choice",
-        options: "Options (comma-separated)",
-        chooseForMe: "Choose for me"
-      },
-      wellness: {
-        title: "Wellness & BMI",
-        desc: "Calculate BMI and hydration.",
-        height: "Height (cm)",
-        weight: "Weight (kg)",
-        yourBMI: "Your BMI",
-        waterPerDay: "Liters of water per day",
-        underweight: "Underweight",
-        normal: "Normal",
-        overweight: "Overweight",
-        obese: "Obese"
-      }
-    }
-  }
-};
 
 function App() {
   const [view, setView] = useState<ViewState>('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [lang, setLang] = useState<'it' | 'en'>('it');
-  const [isPastaSugo, setIsPastaSugo] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-
-  const t = translations[lang];
 
   // Client-side mounting check to prevent hydration mismatch
   useEffect(() => {
@@ -2742,16 +2589,12 @@ function App() {
     );
   };
 
-  const togglePastaSugo = () => {
-    setIsPastaSugo(!isPastaSugo);
-    if (!isPastaSugo) setSearchQuery('');
-  };
+
 
   const toggleFavoritesFilter = () => {
     setShowFavorites(!showFavorites);
     if (!showFavorites) {
       setSearchQuery('');
-      setIsPastaSugo(false);
     }
   };
 
@@ -2763,34 +2606,29 @@ function App() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const toggleLang = () => {
-    setLang(prev => prev === 'it' ? 'en' : 'it');
-  };
+
 
   const modules = [
-    { id: 'converter' as ViewState, title: t.modules.converter.title, desc: t.modules.converter.desc, icon: <IconConverter /> },
-    { id: 'text' as ViewState, title: t.modules.text.title, desc: t.modules.text.desc, icon: <IconText /> },
-    { id: 'security' as ViewState, title: t.modules.security.title, desc: t.modules.security.desc, icon: <IconSecurity /> },
-    { id: 'vat' as ViewState, title: t.modules.vat.title, desc: t.modules.vat.desc, icon: <IconPercent /> },
-    { id: 'time' as ViewState, title: t.modules.time.title, desc: t.modules.time.desc, icon: <IconTime /> },
-    { id: 'colors' as ViewState, title: t.modules.colors.title, desc: t.modules.colors.desc, icon: <IconColors /> },
-    { id: 'social' as ViewState, title: t.modules.social.title, desc: t.modules.social.desc, icon: <div className="text-adaptive"><MessageCircle size={40} strokeWidth={1.5} /></div> },
-    { id: 'notes' as ViewState, title: t.modules.notes.title, desc: t.modules.notes.desc, icon: <div className="text-adaptive"><FileText size={40} strokeWidth={1.5} /></div> },
-    { id: 'geo' as ViewState, title: t.modules.geo.title, desc: t.modules.geo.desc, icon: <div className="text-adaptive"><MapPin size={40} strokeWidth={1.5} /></div> },
-    { id: 'currency' as ViewState, title: t.modules.currency.title, desc: t.modules.currency.desc, icon: <IconCurrency /> },
-    { id: 'imageCompressor' as ViewState, title: t.modules.imageCompressor.title, desc: t.modules.imageCompressor.desc, icon: <div className="text-adaptive"><IconImage size={40} strokeWidth={1.5} /></div> },
-    { id: 'worldTime' as ViewState, title: t.modules.worldTime.title, desc: t.modules.worldTime.desc, icon: <Globe className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
-    { id: 'paletteExtractor' as ViewState, title: t.modules.paletteExtractor.title, desc: t.modules.paletteExtractor.desc, icon: <Palette className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
-    { id: 'randomizer' as ViewState, title: t.modules.randomizer.title, desc: t.modules.randomizer.desc, icon: <Dices className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
-    { id: 'wellness' as ViewState, title: t.modules.wellness.title, desc: t.modules.wellness.desc, icon: <Activity className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
+    { id: 'converter' as ViewState, title: "Convertitore Universale", desc: "Unità, valute e misure per ogni esigenza.", icon: <IconConverter /> },
+    { id: 'text' as ViewState, title: "Analisi Testo", desc: "Statistiche, pulizia e manipolazione stringhe.", icon: <IconText /> },
+    { id: 'security' as ViewState, title: "Sicurezza & QR", desc: "Password sicure e generazione QR Code.", icon: <IconSecurity /> },
+    { id: 'vat' as ViewState, title: "Calcolo IVA & Sconto", desc: "Scorporo/Aggiunta IVA e calcolatore sconti.", icon: <IconPercent /> },
+    { id: 'time' as ViewState, title: "Timer & Produttività", desc: "Pomodoro timer e gestione tempo.", icon: <IconTime /> },
+    { id: 'colors' as ViewState, title: "Laboratorio Colori", desc: "Generatore di palette armoniche e accessibilità.", icon: <IconColors /> },
+    { id: 'social' as ViewState, title: "WhatsApp & Social", desc: "Generatore link rapidi WA e strumenti URL.", icon: <div className="text-adaptive"><MessageCircle size={40} strokeWidth={1.5} /></div> },
+    { id: 'notes' as ViewState, title: "Note Veloci", desc: "Editor persistente con supporto Markdown.", icon: <div className="text-adaptive"><FileText size={40} strokeWidth={1.5} /></div> },
+    { id: 'geo' as ViewState, title: "Geo & Maps", desc: "Convertitore coordinate e link mappe.", icon: <div className="text-adaptive"><MapPin size={40} strokeWidth={1.5} /></div> },
+    { id: 'currency' as ViewState, title: "Cambio Valute", desc: "Tassi di cambio in tempo reale.", icon: <IconCurrency /> },
+    { id: 'imageCompressor' as ViewState, title: "Compressore Immagini", desc: "Ottimizza JPG/PNG in locale.", icon: <div className="text-adaptive"><IconImage size={40} strokeWidth={1.5} /></div> },
+    { id: 'worldTime' as ViewState, title: "World Time Pro", desc: "Orologio mondiale in tempo reale.", icon: <Globe className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
+    { id: 'paletteExtractor' as ViewState, title: "Estrattore Palette", desc: "Estrai colori dominanti da immagini.", icon: <Palette className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
+    { id: 'randomizer' as ViewState, title: "Randomizer Pro", desc: "Numeri, moneta e scelte casuali.", icon: <Dices className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
+    { id: 'wellness' as ViewState, title: "Wellness & BMI", desc: "Calcola BMI e idratazione.", icon: <Activity className="w-8 h-8 md:w-10 md:h-10 text-adaptive" /> },
   ];
 
   const filteredModules = modules.filter(m => {
     if (showFavorites) {
       return favorites.includes(m.id);
-    }
-    if (isPastaSugo) {
-      return m.id === 'notes' || m.id === 'colors';
     }
     return m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
            m.desc.toLowerCase().includes(searchQuery.toLowerCase());
@@ -2808,7 +2646,7 @@ function App() {
                 Omni<span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-600">Tool</span>
               </h1>
               <p className="text-lg md:text-2xl text-adaptive-muted font-medium max-w-2xl leading-relaxed mx-auto">
-                {t.subtitle}
+                La tua suite professionale di utility digitali.
               </p>
             </div>
 
@@ -2819,7 +2657,7 @@ function App() {
                 </div>
                 <input
                   type="text"
-                  placeholder={t.searchPlaceholder}
+                  placeholder="Cerca modulo..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl glass-input border border-[var(--glass-border)] focus:ring-2 focus:ring-blue-500/50 placeholder:text-adaptive-muted"
@@ -2827,14 +2665,7 @@ function App() {
               </div>
 
               <div className="flex gap-2">
-                <button
-                  onClick={toggleLang}
-                  className="p-3 rounded-xl glass-panel hover:bg-white/10 transition-all active:scale-95 text-adaptive flex items-center gap-2 font-bold text-sm"
-                  aria-label="Toggle Language"
-                >
-                  <Languages className="w-5 h-5" />
-                  <span className="hidden sm:inline uppercase">{lang}</span>
-                </button>
+
 
                 <button
                   onClick={toggleFavoritesFilter}
@@ -2879,14 +2710,14 @@ function App() {
                   {showFavorites ? <Star className="w-8 h-8 text-yellow-500" /> : <Search className="w-8 h-8 text-adaptive-muted" />}
                 </div>
                 <p className="text-lg font-medium text-adaptive-muted">
-                  {showFavorites ? t.noFavorites : `${t.noResults} "${searchQuery}"`}
+                  {showFavorites ? "Non hai ancora aggiunto preferiti. Clicca sulla stella nei moduli per aggiungerli qui!" : `Nessun modulo trovato per "${searchQuery}"`}
                 </p>
                 {!showFavorites && (
                   <button
                     onClick={() => setSearchQuery('')}
                     className="mt-4 px-4 py-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
                   >
-                    {t.showAll}
+                    Mostra tutti
                   </button>
                 )}
               </div>
@@ -2895,39 +2726,39 @@ function App() {
 
           <footer className="mt-24 pb-12 text-center border-t border-[var(--glass-border)] pt-12">
             <p className="text-adaptive-muted text-xs font-bold tracking-widest uppercase mb-2">OmniTool Dashboard</p>
-            <p className="text-adaptive-muted text-[10px]">{t.footerText}</p>
+            <p className="text-adaptive-muted text-[10px]">Suite di utility digitali • 2024</p>
           </footer>
         </div>
       ) : view === 'converter' ? (
-        <UnitConverterModule onBack={() => setView('dashboard')} t={t} />
+        <UnitConverterModule onBack={() => setView('dashboard')} />
       ) : view === 'text' ? (
-        <TextAnalyzerModule onBack={() => setView('dashboard')} t={t} />
+        <TextAnalyzerModule onBack={() => setView('dashboard')} />
       ) : view === 'security' ? (
-        <SecurityModule onBack={() => setView('dashboard')} t={t} />
+        <SecurityModule onBack={() => setView('dashboard')} />
       ) : view === 'vat' ? (
-        <VATModule onBack={() => setView('dashboard')} t={t} />
+        <VATModule onBack={() => setView('dashboard')} />
       ) : view === 'time' ? (
-        <TimeModule onBack={() => setView('dashboard')} t={t} />
+        <TimeModule onBack={() => setView('dashboard')} />
       ) : view === 'colors' ? (
-        <ColorLabModule onBack={() => setView('dashboard')} t={t} />
+        <ColorLabModule onBack={() => setView('dashboard')} />
       ) : view === 'social' ? (
-        <SocialModule onBack={() => setView('dashboard')} t={t} />
+        <SocialModule onBack={() => setView('dashboard')} />
       ) : view === 'notes' ? (
-        <NotesModule onBack={() => setView('dashboard')} t={t} />
+        <NotesModule onBack={() => setView('dashboard')} />
       ) : view === 'geo' ? (
-        <GeoModule onBack={() => setView('dashboard')} t={t} />
+        <GeoModule onBack={() => setView('dashboard')} />
       ) : view === 'currency' ? (
-        <CurrencyModule onBack={() => setView('dashboard')} t={t} />
+        <CurrencyModule onBack={() => setView('dashboard')} />
       ) : view === 'imageCompressor' ? (
-        <ImageCompressorModule onBack={() => setView('dashboard')} t={t} />
+        <ImageCompressorModule onBack={() => setView('dashboard')} />
       ) : view === 'worldTime' ? (
-        <WorldTimeModule onBack={() => setView('dashboard')} t={t} />
+        <WorldTimeModule onBack={() => setView('dashboard')} />
       ) : view === 'paletteExtractor' ? (
-        <PaletteExtractorModule onBack={() => setView('dashboard')} t={t} />
+        <PaletteExtractorModule onBack={() => setView('dashboard')} />
       ) : view === 'randomizer' ? (
-        <RandomizerModule onBack={() => setView('dashboard')} t={t} />
+        <RandomizerModule onBack={() => setView('dashboard')} />
       ) : (
-        <WellnessModule onBack={() => setView('dashboard')} t={t} />
+        <WellnessModule onBack={() => setView('dashboard')} />
       )}
     </main>
   );
