@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading, MapPin, Compass, Utensils, Thermometer, Scale, Coffee } from 'lucide-react';
+import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading, MapPin, Compass, Utensils, Thermometer, Scale, Coffee, ChevronLeft, Palette, Search, Shield, Zap, Clock, ChevronRight } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
 
@@ -272,16 +272,16 @@ const UnitConverterModule = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       <div className="glass-panel rounded-[2.5rem] p-6 shadow-2xl flex flex-col gap-8">
-        <nav className="flex flex-wrap justify-center gap-2 p-1 bg-black/20 rounded-2xl border border-white/5 backdrop-blur-md">
+        <nav className="flex flex-wrap justify-center gap-1.5 p-1.5 bg-black/20 rounded-2xl border border-white/5 backdrop-blur-md">
           {(Object.keys(CATEGORIES) as CategoryId[]).map((cId) => (
             <button
               key={cId}
               onClick={() => setActiveCategory(cId)}
-              className={`px-3 py-2 rounded-xl text-[11px] font-bold transition-all flex items-center gap-2 uppercase tracking-wide ${activeCategory === cId ? 'bg-white/10 text-white shadow-inner ring-1 ring-white/10' : 'text-white/30 hover:text-white/60'
+              className={`px-3 py-2 rounded-xl text-[9px] md:text-[11px] font-bold transition-all flex flex-col md:flex-row items-center gap-1 md:gap-2 uppercase tracking-wide ${activeCategory === cId ? 'bg-white/10 text-white shadow-inner ring-1 ring-white/10' : 'text-white/30 hover:text-white/60'
                 }`}
             >
-              {CATEGORIES[cId].icon}
-              <span className="hidden sm:inline">{CATEGORIES[cId].label}</span>
+              <div className="scale-110 md:scale-100">{CATEGORIES[cId].icon}</div>
+              <span>{CATEGORIES[cId].label}</span>
             </button>
           ))}
         </nav>
@@ -302,13 +302,15 @@ const UnitConverterModule = ({ onBack }: { onBack: () => void }) => {
 
         {results.error && <p className="text-center text-red-400 font-bold uppercase text-xs">{results.error}</p>}
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {results.grid.map((r: any) => (
-            <div key={r.id} className="glass-card p-4 rounded-2xl">
-              <span className="text-[10px] text-white/30 uppercase font-bold">{r.label}</span>
-              <div className="text-xl font-bold text-white/90 truncate">{r.result} <span className="text-xs opacity-50 font-normal">{r.id}</span></div>
-            </div>
-          ))}
+        <div className="overflow-x-auto -mx-2 px-2 pb-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 min-w-[300px]">
+            {results.grid.map((r: any) => (
+              <div key={r.id} className="glass-card p-4 rounded-2xl">
+                <span className="text-[10px] text-white/30 uppercase font-bold">{r.label}</span>
+                <div className="text-xl font-bold text-white/90 truncate break-words">{r.result} <span className="text-xs opacity-50 font-normal">{r.id}</span></div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -496,7 +498,10 @@ const SecurityModule = ({ onBack }: { onBack: () => void }) => {
             <div className={`absolute bottom-0 left-0 h-1 transition-all duration-500 ${pwdStrength === 2 ? 'bg-emerald-500 w-full' : pwdStrength === 1 ? 'bg-yellow-500 w-2/3' : 'bg-red-500 w-1/3'}`} />
           </div>
           <div className="space-y-4">
-            <input type="range" min="8" max="64" value={pwdLength} onChange={(e) => setPwdLength(parseInt(e.target.value))} className="w-full accent-emerald-500 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer" />
+            <div className="flex items-center justify-between gap-4">
+              <input type="range" min="8" max="64" value={pwdLength} onChange={(e) => setPwdLength(parseInt(e.target.value))} className="flex-1 accent-emerald-500 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer" />
+              <span className="min-w-[2.5rem] text-center font-mono text-emerald-400 font-black bg-emerald-500/10 py-1 rounded-lg border border-emerald-500/20">{pwdLength}</span>
+            </div>
             <div className="grid grid-cols-2 gap-3 mt-4">
               {[
                 { id: 'upper', label: 'ABC' }, { id: 'lower', label: 'abc' },
@@ -736,8 +741,8 @@ const TimeModule = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {activeTab === 'timer' ? (
-        <div className={`glass-panel rounded-[3rem] p-12 shadow-2xl bg-orange-900/10 border-orange-500/20 text-center transition-all duration-500 ${tmFinished ? 'shadow-red-500/50 border-red-500 animate-pulse' : ''}`}>
-          <div className="text-[8rem] md:text-[12rem] font-black leading-none tracking-tighter tabular-nums mb-8 bg-black/20 rounded-[3rem] py-8">
+        <div className={`glass-panel rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-2xl bg-orange-900/10 border-orange-500/20 text-center transition-all duration-500 ${tmFinished ? 'shadow-red-500/50 border-red-500 animate-pulse' : ''}`}>
+          <div className="text-6xl md:text-[12rem] font-black leading-none tracking-tighter tabular-nums mb-8 bg-black/20 rounded-[2rem] md:rounded-[3rem] py-6 md:py-8 whitespace-nowrap overflow-hidden text-ellipsis">
             {fmtTm(tmTime)}
           </div>
 
@@ -771,8 +776,8 @@ const TimeModule = ({ onBack }: { onBack: () => void }) => {
           </div>
         </div>
       ) : (
-        <div className="glass-panel rounded-[3rem] p-8 shadow-2xl bg-orange-900/10 border-orange-500/20 flex flex-col items-center">
-          <div className="text-[6rem] md:text-[9rem] font-black leading-none tracking-tighter tabular-nums mb-8 text-orange-200">
+        <div className="glass-panel rounded-[2rem] md:rounded-[3rem] p-6 md:p-8 shadow-2xl bg-orange-900/10 border-orange-500/20 flex flex-col items-center">
+          <div className="text-5xl md:text-[9rem] font-black leading-none tracking-tighter tabular-nums mb-8 text-orange-200 whitespace-nowrap overflow-hidden text-ellipsis">
             {fmtSw(swTime)}
           </div>
 
@@ -927,7 +932,7 @@ const ColorLabModule = ({ onBack }: { onBack: () => void }) => {
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* LEFT: PICKER & VALUES */}
-        <div className="glass-panel lg:col-span-1 rounded-[2.5rem] p-8 shadow-2xl bg-indigo-900/10 border-indigo-500/20 flex flex-col gap-6">
+        <div className="glass-panel lg:col-span-1 rounded-[2.5rem] p-6 md:p-8 shadow-2xl bg-indigo-900/10 border-indigo-500/20 flex flex-col gap-6">
           <h3 className="text-xl font-bold text-white">Selettore</h3>
 
           <div className="relative w-full aspect-square rounded-3xl overflow-hidden shadow-inner ring-1 ring-white/10 group">
@@ -973,10 +978,10 @@ const ColorLabModule = ({ onBack }: { onBack: () => void }) => {
         </div>
 
         {/* RIGHT: HARMONIES & CONTRAST */}
-        <div className="lg:col-span-2 flex flex-col gap-6">
+        <div className="lg:col-span-2 flex flex-col gap-8">
 
           {/* HARMONIES */}
-          <div className="glass-panel rounded-[2.5rem] p-8 shadow-2xl bg-violet-900/10 border-violet-500/20">
+          <div className="glass-panel rounded-[2.5rem] p-6 md:p-8 shadow-2xl bg-violet-900/10 border-violet-500/20">
             <h3 className="text-xl font-bold text-white mb-6">Armonie</h3>
             <div className="space-y-6">
               <div>
@@ -1015,7 +1020,7 @@ const ColorLabModule = ({ onBack }: { onBack: () => void }) => {
           </div>
 
           {/* CONTRAST */}
-          <div className="glass-panel rounded-[2.5rem] p-8 shadow-2xl bg-white/5 border-white/10">
+          <div className="glass-panel rounded-[2.5rem] p-6 md:p-8 shadow-2xl bg-white/5 border-white/10">
             <h3 className="text-xl font-bold text-white mb-6">Accessibilità (Contrasto)</h3>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="rounded-2xl p-6 flex flex-col justify-center items-center gap-2 transition-colors border border-white/10" style={{ backgroundColor: hex }}>
@@ -1093,7 +1098,7 @@ const SocialModule = ({ onBack }: { onBack: () => void }) => {
 
       <div className="grid lg:grid-cols-2 gap-8">
         {/* LEFT: WA GENERATOR */}
-        <section className="glass-panel rounded-[2.5rem] p-8 shadow-2xl bg-lime-900/10 border-lime-500/20 flex flex-col gap-6">
+        <section className="glass-panel rounded-[2.5rem] p-6 md:p-8 shadow-2xl bg-lime-900/10 border-lime-500/20 flex flex-col gap-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 rounded-full bg-lime-500/20 text-lime-500"><MessageCircle size={24} /></div>
             <h3 className="text-xl font-bold text-white">WhatsApp Link Generator</h3>
@@ -1124,8 +1129,8 @@ const SocialModule = ({ onBack }: { onBack: () => void }) => {
             </div>
           </div>
 
-          <div className="bg-lime-500/10 border border-lime-500/20 p-4 rounded-2xl flex items-center justify-between gap-4 mt-2">
-            <div className="truncate flex-1 font-mono text-xs text-lime-200/70">{waLink}</div>
+          <div className="bg-lime-500/10 border border-lime-500/20 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 mt-2 overflow-hidden">
+            <div className="w-full truncate font-mono text-xs text-lime-200/70 select-all break-all whitespace-pre-wrap">{waLink}</div>
             <div className="flex gap-2 shrink-0">
               <button onClick={() => handleCopy(waLink)} className="p-2 rounded-lg bg-lime-500/20 hover:bg-lime-500/40 text-lime-400 transition-colors" title="Copia"><IconLink size={18} /></button>
               <button onClick={handleTest} className="p-2 rounded-lg bg-lime-500 hover:bg-lime-400 text-black font-bold transition-colors flex items-center gap-2" title="Apri">
@@ -1456,7 +1461,7 @@ const GeoModule = ({ onBack }: { onBack: () => void }) => {
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* LEFT: INPUTS */}
-        <section className="glass-panel p-8 rounded-[2.5rem] bg-cyan-900/10 border-cyan-500/20 flex flex-col gap-6">
+        <section className="glass-panel p-6 md:p-8 rounded-[2.5rem] bg-cyan-900/10 border-cyan-500/20 flex flex-col gap-6">
           <h3 className="text-xl font-bold text-white flex items-center gap-2">
             <Compass className="text-cyan-400" /> Input Coordinate
           </h3>
@@ -1489,7 +1494,7 @@ const GeoModule = ({ onBack }: { onBack: () => void }) => {
 
         {/* RIGHT: RESULTS & LINKS */}
         <div className="flex flex-col gap-8">
-          <section className="glass-panel p-8 rounded-[2.5rem] bg-white/5 border-white/10 relative overflow-hidden group">
+          <section className="glass-panel p-6 md:p-8 rounded-[2.5rem] bg-white/5 border-white/10 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
               <MapPin size={100} className="text-white" />
             </div>
@@ -1599,7 +1604,7 @@ const KitchenModule = ({ onBack }: { onBack: () => void }) => {
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* WEIGHT CONVERTER */}
-        <section className="glass-panel p-8 rounded-[2.5rem] bg-orange-900/10 border-orange-500/20 flex flex-col gap-6 relative overflow-hidden">
+        <section className="glass-panel p-6 md:p-8 rounded-[2.5rem] bg-orange-900/10 border-orange-500/20 flex flex-col gap-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
             <Scale size={150} className="text-orange-200" />
           </div>
@@ -1656,7 +1661,7 @@ const KitchenModule = ({ onBack }: { onBack: () => void }) => {
 
         {/* TEMPERATURE */}
         <div className="flex flex-col gap-8">
-          <section className="glass-panel p-8 rounded-[2.5rem] bg-amber-900/10 border-amber-500/20 flex flex-col flex-1 relative overflow-hidden">
+          <section className="glass-panel p-6 md:p-8 rounded-[2.5rem] bg-amber-900/10 border-amber-500/20 flex flex-col flex-1 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
               <Thermometer size={120} className="text-amber-200" />
             </div>
@@ -1716,25 +1721,25 @@ const DashboardCard = ({
   active?: boolean,
   onClick?: () => void
 }) => (
-  <div
-    onClick={active ? onClick : undefined}
-    className={`
-      relative p-6 md:p-8 rounded-[2rem] border transition-all duration-300 group
-      ${active
-        ? 'bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border-white/10 cursor-pointer hover:border-white/30 hover:-translate-y-1 hover:shadow-2xl hover:bg-white/10'
-        : 'bg-white/5 border-white/5 opacity-60 cursor-not-allowed grayscale-[0.5]'
-      }
-    `}
+  <button
+    onClick={onClick}
+    className={`group relative p-6 rounded-3xl border transition-all duration-500 text-left h-full flex flex-col ${active
+      ? 'bg-white/10 border-white/30 shadow-[0_0_30px_rgba(255,255,255,0.05)] scale-[1.02]'
+      : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.03)]'
+      }`}
   >
-    <div className={`
-      w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110
-      ${active ? 'bg-indigo-500 shadow-lg shadow-indigo-500/30' : 'bg-white/10'}
-    `}>
+    <div className={`p-4 rounded-2xl mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${active ? 'bg-white/20' : 'bg-white/5'}`}>
       {icon}
     </div>
-    <h3 className="text-xl md:text-2xl font-black text-white mb-2">{title}</h3>
-    <p className="text-xs md:text-sm text-white/50 leading-relaxed font-medium">{desc}</p>
-  </div>
+    <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">{title}</h3>
+    <p className="text-sm text-white/40 group-hover:text-white/60 transition-colors leading-relaxed">{desc}</p>
+
+    <div className="mt-auto pt-6 flex justify-end">
+      <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 group-hover:translate-x-1 transition-all">
+        <ChevronLeft className="rotate-180 text-white/40 group-hover:text-white" size={16} />
+      </div>
+    </div>
+  </button>
 );
 
 // --- MAIN CONTROLLER ---
@@ -1745,22 +1750,22 @@ export default function OmniTool() {
   const [view, setView] = useState<ViewState>('dashboard');
 
   return (
-    <main className="min-h-screen font-sans text-white relative">
+    <main className="min-h-screen font-sans text-white relative flex flex-col overflow-x-hidden max-w-[100vw]">
       <div className="mesh-background fixed inset-0 z-[-1]" />
 
       {view === 'dashboard' ? (
-        <div className="max-w-7xl mx-auto p-6 md:p-12 animate-fade-in">
-          <header className="mb-12">
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50">
-              OmniTool
+        <div className="max-w-7xl mx-auto p-6 md:p-12 animate-in fade-in slide-in-from-top-4 duration-1000 flex-1">
+          <header className="mb-16 mt-8 md:mt-0 text-center md:text-left">
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-white/40">
+              Omni<span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-600">Tool</span>
             </h1>
-            <p className="text-xl text-indigo-200/60 font-medium max-w-2xl">
-              La tua suite definitiva di strumenti digitali. <br />
-              Minimalista, Potente, Scientifica.
+            <p className="text-lg md:text-2xl text-white/50 font-medium max-w-2xl leading-relaxed mx-auto md:mx-0">
+              La tua suite professionale di utility digitali.<br className="hidden md:block" />
+              Semplice, veloce, sicura.
             </p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
             <div className="md:col-span-2 lg:col-span-2">
               <DashboardCard
@@ -1845,6 +1850,11 @@ export default function OmniTool() {
             />
 
           </div>
+
+          <footer className="mt-24 pb-12 text-center border-t border-white/5 pt-12">
+            <p className="text-white/20 text-xs font-bold tracking-widest uppercase mb-2">OmniTool Dashboard</p>
+            <p className="text-white/10 text-[10px]">Suite di utility digitali • 2024</p>
+          </footer>
         </div>
       ) : view === 'converter' ? (
         <UnitConverterModule onBack={() => setView('dashboard')} />
