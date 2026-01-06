@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading } from 'lucide-react';
+import { MessageCircle, Link as IconLink, Share2, Globe, ExternalLink, FileText, Trash2, Download, Copy, Bold, List, Heading, MapPin, Compass } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
 
@@ -1388,6 +1388,143 @@ const NotesModule = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+// --- MODULE 9: GEO & MAPS ---
+
+const GeoModule = ({ onBack }: { onBack: () => void }) => {
+  const [lat, setLat] = useState('');
+  const [lon, setLon] = useState('');
+
+  const isValidLat = useMemo(() => {
+    if (!lat) return true;
+    const n = parseFloat(lat);
+    return !isNaN(n) && n >= -90 && n <= 90;
+  }, [lat]);
+
+  const isValidLon = useMemo(() => {
+    if (!lon) return true;
+    const n = parseFloat(lon);
+    return !isNaN(n) && n >= -180 && n <= 180;
+  }, [lon]);
+
+  const toDMS = (deg: number, type: 'lat' | 'lon') => {
+    const absolute = Math.abs(deg);
+    const degrees = Math.floor(absolute);
+    const minutesNotTruncated = (absolute - degrees) * 60;
+    const minutes = Math.floor(minutesNotTruncated);
+    const seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+
+    let card = '';
+    if (type === 'lat') card = deg >= 0 ? 'N' : 'S';
+    if (type === 'lon') card = deg >= 0 ? 'E' : 'W';
+
+    return `${degrees}° ${minutes}' ${seconds}" ${card}`;
+  };
+
+  const dmsResult = useMemo(() => {
+    const l = parseFloat(lat);
+    const g = parseFloat(lon);
+    if (isNaN(l) || isNaN(g) || !isValidLat || !isValidLon) return { lat: '-', lon: '-' };
+    return {
+      lat: toDMS(l, 'lat'),
+      lon: toDMS(g, 'lon')
+    };
+  }, [lat, lon, isValidLat, isValidLon]);
+
+  const handleOpenMap = (service: 'google' | 'apple' | 'waze') => {
+    const l = parseFloat(lat);
+    const g = parseFloat(lon);
+    if (isNaN(l) || isNaN(g) || !isValidLat || !isValidLon) return;
+
+    let url = '';
+    if (service === 'google') url = `https://www.google.com/maps/search/?api=1&query=${l},${g}`;
+    if (service === 'apple') url = `http://maps.apple.com/?ll=${l},${g}`;
+    if (service === 'waze') url = `https://waze.com/ul?ll=${l},${g}&navigate=yes`;
+
+    window.open(url, '_blank');
+  };
+
+  return (
+    <div className="animate-fade-in w-full max-w-5xl mx-auto p-4 md:p-8">
+      <div className="flex items-center gap-4 mb-8">
+        <button onClick={onBack} className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors group">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white/50 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        </button>
+        <h2 className="text-2xl font-black text-white">Geo & Maps Tool</h2>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* LEFT: INPUTS */}
+        <section className="glass-panel p-8 rounded-[2.5rem] bg-cyan-900/10 border-cyan-500/20 flex flex-col gap-6">
+          <h3 className="text-xl font-bold text-white flex items-center gap-2">
+            <Compass className="text-cyan-400" /> Input Coordinate
+          </h3>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-[10px] uppercase font-black text-cyan-200/50 mb-1 block">Latitudine (-90 / 90)</label>
+              <input
+                type="number"
+                value={lat}
+                onChange={e => setLat(e.target.value)}
+                placeholder="45.4642"
+                className={`glass-input w-full p-4 rounded-xl text-xl font-mono transition-all ${!isValidLat ? 'border-red-500/50 focus:ring-red-500' : ''}`}
+              />
+              {!isValidLat && <span className="text-xs text-red-400 font-bold mt-1 block">Valore non valido</span>}
+            </div>
+            <div>
+              <label className="text-[10px] uppercase font-black text-cyan-200/50 mb-1 block">Longitudine (-180 / 180)</label>
+              <input
+                type="number"
+                value={lon}
+                onChange={e => setLon(e.target.value)}
+                placeholder="9.1900"
+                className={`glass-input w-full p-4 rounded-xl text-xl font-mono transition-all ${!isValidLon ? 'border-red-500/50 focus:ring-red-500' : ''}`}
+              />
+              {!isValidLon && <span className="text-xs text-red-400 font-bold mt-1 block">Valore non valido</span>}
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT: RESULTS & LINKS */}
+        <div className="flex flex-col gap-8">
+          <section className="glass-panel p-8 rounded-[2.5rem] bg-white/5 border-white/10 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+              <MapPin size={100} className="text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-6">Formato DMS</h3>
+            <div className="space-y-4 relative z-10">
+              <div className="bg-black/20 p-4 rounded-xl flex justify-between items-center">
+                <span className="text-2xl font-mono text-cyan-300 font-bold">{dmsResult.lat}</span>
+                <span className="text-[10px] uppercase font-bold text-white/20">LAT</span>
+              </div>
+              <div className="bg-black/20 p-4 rounded-xl flex justify-between items-center">
+                <span className="text-2xl font-mono text-cyan-300 font-bold">{dmsResult.lon}</span>
+                <span className="text-[10px] uppercase font-bold text-white/20">LON</span>
+              </div>
+            </div>
+          </section>
+
+          <div className="grid grid-cols-2 gap-4">
+            <button onClick={() => handleOpenMap('google')} className="p-4 rounded-2xl bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/30 transition-all font-bold text-cyan-100 flex flex-col items-center gap-2 group">
+              <Globe className="group-hover:scale-110 transition-transform" />
+              Google Maps
+            </button>
+            <button onClick={() => handleOpenMap('apple')} className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all font-bold text-white flex flex-col items-center gap-2 group">
+              <MapPin className="group-hover:scale-110 transition-transform" />
+              Apple Maps
+            </button>
+            <button onClick={() => handleOpenMap('waze')} className="col-span-2 p-4 rounded-2xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 transition-all font-bold text-blue-200 flex items-center justify-center gap-2">
+              <Compass size={20} /> Apri in Waze
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- DASHBOARD (HOME) ---
 
 const DashboardCard = ({
@@ -1426,7 +1563,7 @@ const DashboardCard = ({
 
 // --- MAIN CONTROLLER ---
 
-type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes';
+type ViewState = 'dashboard' | 'converter' | 'text' | 'security' | 'vat' | 'time' | 'colors' | 'social' | 'notes' | 'geo';
 
 export default function OmniTool() {
   const [view, setView] = useState<ViewState>('dashboard');
@@ -1515,6 +1652,14 @@ export default function OmniTool() {
               desc="Editor persistente, minimalista, con supporto Markdown."
             />
 
+            <DashboardCard
+              active
+              onClick={() => setView('geo')}
+              icon={<div className="text-white"><MapPin size={40} strokeWidth={1.5} /></div>}
+              title="Geo & Maps"
+              desc="Convertitore coordinate DMS e link rapidi alle mappe."
+            />
+
           </div>
         </div>
       ) : view === 'converter' ? (
@@ -1531,8 +1676,10 @@ export default function OmniTool() {
         <ColorLabModule onBack={() => setView('dashboard')} />
       ) : view === 'social' ? (
         <SocialModule onBack={() => setView('dashboard')} />
-      ) : (
+      ) : view === 'notes' ? (
         <NotesModule onBack={() => setView('dashboard')} />
+      ) : (
+        <GeoModule onBack={() => setView('dashboard')} />
       )}
     </main>
   );
