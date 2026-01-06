@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Unit Converter Pro",
-  description: "Modern & Scientific Single Page Unit Converter",
+  title: "OmniTool",
+  description: "La tua suite professionale di utility digitali.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
