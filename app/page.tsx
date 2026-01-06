@@ -179,7 +179,7 @@ const CATEGORIES: Record<CategoryId, CategoryDef> = {
     label: "Cucina",
     baseUnitId: 'ml',
     icon: CatIcons.cucina,
-    commonTargets: ['ml', 'cup', 'tbsp', 'tsp', 'floz'],
+    commonTargets: ['ml', 'cup', 'tbsp', 'tsp', 'floz', 'g'],
     units: [
       { id: 'ml', label: 'Millilitri (ml)', group: 'Metrico', toBase: 1 },
       { id: 'l', label: 'Litri (l)', group: 'Metrico', toBase: 1000 },
@@ -187,8 +187,18 @@ const CATEGORIES: Record<CategoryId, CategoryDef> = {
       { id: 'tbsp', label: 'Cucchiaio (Tbsp)', group: 'Cucina', toBase: 14.7868 },
       { id: 'tsp', label: 'Cucchiaino (Tsp)', group: 'Cucina', toBase: 4.92892 },
       { id: 'floz', label: 'Once Fluide (fl oz)', group: 'Cucina', toBase: 29.5735 },
+      { id: 'g', label: 'Grammi (g)', group: 'Peso (Stimato)', toBase: 1 },
     ]
   }
+};
+
+const INGREDIENTS: Record<string, { label: string, density: number }> = {
+  acqua: { label: 'Acqua', density: 1.0 },
+  farina: { label: 'Farina 00', density: 0.53 },
+  zucchero: { label: 'Zucchero Semolato', density: 0.85 },
+  riso: { label: 'Riso Crudo', density: 0.85 },
+  olio: { label: 'Olio', density: 0.92 },
+  latte: { label: 'Latte Intero', density: 1.03 },
 };
 
 const formatVal = (num: number) => {
@@ -232,6 +242,7 @@ const UnitConverterModule = ({ onBack }: { onBack: () => void }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [sourceUnitId, setSourceUnitId] = useState<string>('');
   const [advTargetUnitId, setAdvTargetUnitId] = useState<string>('');
+  const [ingredient, setIngredient] = useState('acqua');
 
   useEffect(() => {
     const cat = CATEGORIES[activeCategory];
@@ -248,11 +259,15 @@ const UnitConverterModule = ({ onBack }: { onBack: () => void }) => {
     const val = parseFloat(inputValue);
     if (isNaN(val) || inputValue === '') return { error: null, grid: [], advanced: null };
 
+    const density = INGREDIENTS[ingredient].density;
+
     let baseVal = 0;
     try {
       if (activeCategory === 'temperatura') {
         baseVal = sourceUnit.toBaseFn ? sourceUnit.toBaseFn(val) : val;
         if (baseVal < -273.1501) return { error: 'Temp. impossibile', grid: [], advanced: null };
+      } else if (activeCategory === 'cucina' && sourceUnitId === 'g') {
+        baseVal = val / density;
       } else {
         baseVal = val * (sourceUnit.toBase ?? 1);
       }
@@ -260,21 +275,31 @@ const UnitConverterModule = ({ onBack }: { onBack: () => void }) => {
       const grid = catData.commonTargets.map(tId => {
         const u = catData.units.find(un => un.id === tId);
         if (!u) return null;
-        let res = activeCategory === 'temperatura'
-          ? (u.fromBaseFn ? u.fromBaseFn(baseVal) : baseVal)
-          : baseVal / (u.toBase || 1);
+        let res = 0;
+        if (activeCategory === 'temperatura') {
+          res = u.fromBaseFn ? u.fromBaseFn(baseVal) : baseVal;
+        } else if (activeCategory === 'cucina' && tId === 'g') {
+          res = baseVal * density;
+        } else {
+          res = baseVal / (u.toBase || 1);
+        }
         return { ...u, result: formatVal(res) };
       }).filter(Boolean);
 
-      let advRes = activeCategory === 'temperatura'
-        ? (advTargetUnit.fromBaseFn ? advTargetUnit.fromBaseFn(baseVal) : baseVal)
-        : baseVal / (advTargetUnit.toBase || 1);
+      let advRes = 0;
+      if (activeCategory === 'temperatura') {
+        advRes = advTargetUnit.fromBaseFn ? advTargetUnit.fromBaseFn(baseVal) : baseVal;
+      } else if (activeCategory === 'cucina' && advTargetUnitId === 'g') {
+        advRes = baseVal * density;
+      } else {
+        advRes = baseVal / (advTargetUnit.toBase || 1);
+      }
 
       return { error: null, grid, advanced: formatVal(advRes) };
     } catch {
       return { error: "Errore", grid: [], advanced: null };
     }
-  }, [inputValue, sourceUnit, advTargetUnit, activeCategory, catData]);
+  }, [inputValue, sourceUnit, advTargetUnit, activeCategory, catData, ingredient, sourceUnitId, advTargetUnitId]);
 
   return (
     <div className="animate-fade-in w-full max-w-5xl mx-auto p-4 md:p-8">
@@ -301,6 +326,24 @@ const UnitConverterModule = ({ onBack }: { onBack: () => void }) => {
             </button>
           ))}
         </nav>
+
+        {activeCategory === 'cucina' && (
+          <div className="animate-in fade-in slide-in-from-top-2 duration-500 bg-orange-500/5 border border-orange-500/20 p-4 rounded-2xl flex flex-col md:flex-row items-center gap-4">
+            <div className="flex items-center gap-3 text-orange-400 shrink-0">
+              <Utensils size={20} />
+              <span className="text-xs font-black uppercase tracking-widest whitespace-nowrap">Seleziona Ingrediente:</span>
+            </div>
+            <select
+              value={ingredient}
+              onChange={e => setIngredient(e.target.value)}
+              className="glass-input flex-1 py-2 px-4 rounded-xl font-bold bg-white/5 border-white/10 text-white appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-orange-500/50 transition-all"
+            >
+              {Object.entries(INGREDIENTS).map(([key, data]) => (
+                <option key={key} value={key} className="bg-slate-900 text-white">{data.label}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="flex flex-col md:flex-row gap-4 items-end">
           <div className="flex-1 w-full space-y-2">
