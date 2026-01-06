@@ -9,7 +9,7 @@ import {
   ChevronLeft, Palette, Search, Shield, Zap, Clock,
   ChevronRight, Sun, Moon, Languages, Coins, RefreshCcw,
   ArrowLeftRight, Loader2, ChefHat, Image as IconImage, Minimize, UploadCloud,
-  Dices, RotateCw, HelpCircle, Activity, Droplets
+  Dices, RotateCw, HelpCircle, Activity, Droplets, Star
 } from 'lucide-react';
 
 // --- ICONS (DASHBOARD) ---
@@ -1752,21 +1752,37 @@ const DashboardCard = ({
   title,
   desc,
   active = false,
-  onClick
+  onClick,
+  isFavorite,
+  onToggleFavorite
 }: {
   icon: React.ReactNode,
   title: string,
   desc: string,
   active?: boolean,
-  onClick?: () => void
+  onClick?: () => void,
+  isFavorite?: boolean,
+  onToggleFavorite?: (e: React.MouseEvent) => void
 }) => (
-  <button
+  <div
     onClick={onClick}
-    className={`group relative p-6 rounded-3xl border transition-all duration-500 text-left h-full flex flex-col glass-card w-full ${active
+    className={`group relative p-6 rounded-3xl border transition-all duration-500 text-left h-full flex flex-col glass-card w-full cursor-pointer ${active
       ? 'border-[var(--glass-border)] shadow-lg scale-[1.02]'
       : 'border-[var(--glass-border)] hover:scale-[1.02]'
       }`}
   >
+    {onToggleFavorite && (
+      <button
+        onClick={onToggleFavorite}
+        className="absolute top-4 right-4 p-2 rounded-full bg-[var(--glass-input-bg)] hover:bg-yellow-500/20 transition-all z-10 group/star"
+        aria-label="Toggle favorite"
+      >
+        <Star
+          size={18}
+          className={`transition-all ${isFavorite ? 'fill-yellow-500 text-yellow-500' : 'text-adaptive-muted group-hover/star:text-yellow-500'}`}
+        />
+      </button>
+    )}
     <div className={`p-4 rounded-2xl mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${active ? 'bg-[var(--glass-input-bg)]' : 'bg-[var(--glass-input-bg)]'}`}>
       <div className="text-adaptive">{icon}</div>
     </div>
@@ -1778,7 +1794,7 @@ const DashboardCard = ({
         <ChevronLeft className="rotate-180 text-adaptive-muted group-hover:text-white" size={16} />
       </div>
     </div>
-  </button>
+  </div>
 );
 
 // --- MODULE 11: IMAGE COMPRESSOR ---
@@ -2543,6 +2559,8 @@ const translations = {
     noResults: "Nessun modulo trovato per",
     showAll: "Mostra tutti",
     pastaSugo: "PastaSugo",
+    favorites: "Preferiti",
+    noFavorites: "Non hai ancora aggiunto preferiti. Clicca sulla stella nei moduli per aggiungerli qui!",
     footerText: "Suite di utility digitali • 2024",
     modules: {
       converter: { title: "Convertitore Universale", desc: "Unità, valute e misure per ogni esigenza." },
@@ -2614,6 +2632,8 @@ const translations = {
     noResults: "No modules found for",
     showAll: "Show all",
     pastaSugo: "PastaSugo",
+    favorites: "Favorites",
+    noFavorites: "You haven't added any favorites yet. Click the star on modules to add them here!",
     footerText: "Digital Utility Suite • 2024",
     modules: {
       converter: { title: "Universal Converter", desc: "Units, currencies, and measurements." },
@@ -2686,12 +2706,53 @@ function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [lang, setLang] = useState<'it' | 'en'>('it');
   const [isPastaSugo, setIsPastaSugo] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const t = translations[lang];
+
+  // Client-side mounting check to prevent hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Load favorites from localStorage on mount
+  useEffect(() => {
+    if (isMounted) {
+      const savedFavorites = localStorage.getItem('omnitool-favorites');
+      if (savedFavorites) {
+        setFavorites(JSON.parse(savedFavorites));
+      }
+    }
+  }, [isMounted]);
+
+  // Save favorites to localStorage whenever it changes
+  useEffect(() => {
+    if (isMounted) {
+      localStorage.setItem('omnitool-favorites', JSON.stringify(favorites));
+    }
+  }, [favorites, isMounted]);
+
+  const toggleFavorite = (moduleId: string) => {
+    setFavorites(prev => 
+      prev.includes(moduleId)
+        ? prev.filter(id => id !== moduleId)
+        : [...prev, moduleId]
+    );
+  };
 
   const togglePastaSugo = () => {
     setIsPastaSugo(!isPastaSugo);
     if (!isPastaSugo) setSearchQuery('');
+  };
+
+  const toggleFavoritesFilter = () => {
+    setShowFavorites(!showFavorites);
+    if (!showFavorites) {
+      setSearchQuery('');
+      setIsPastaSugo(false);
+    }
   };
 
   useEffect(() => {
@@ -2725,6 +2786,9 @@ function App() {
   ];
 
   const filteredModules = modules.filter(m => {
+    if (showFavorites) {
+      return favorites.includes(m.id);
+    }
     if (isPastaSugo) {
       return m.id === 'notes' || m.id === 'colors';
     }
@@ -2773,12 +2837,11 @@ function App() {
                 </button>
 
                 <button
-                  onClick={togglePastaSugo}
-                  className={`p-3 rounded-xl glass-panel transition-all active:scale-95 flex items-center gap-2 font-bold text-sm ${isPastaSugo ? 'bg-orange-500/20 text-orange-500 border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.3)]' : 'text-adaptive hover:bg-white/10'}`}
-                  aria-label="Toggle PastaSugo Mode"
+                  onClick={toggleFavoritesFilter}
+                  className={`p-3 rounded-xl glass-panel transition-all active:scale-95 flex items-center gap-2 ${showFavorites ? 'bg-yellow-500/20 text-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.3)]' : 'text-adaptive hover:bg-white/10'}`}
+                  aria-label="Toggle Favorites"
                 >
-                  <ChefHat className={`w-5 h-5 ${isPastaSugo ? 'animate-bounce' : ''}`} />
-                  <span className="hidden md:inline uppercase">{t.pastaSugo}</span>
+                  <ChefHat className={`w-5 h-5 ${showFavorites ? 'animate-bounce' : ''}`} />
                 </button>
 
                 <button
@@ -2802,21 +2865,30 @@ function App() {
                     icon={module.icon}
                     title={module.title}
                     desc={module.desc}
+                    isFavorite={favorites.includes(module.id)}
+                    onToggleFavorite={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(module.id);
+                    }}
                   />
                 </div>
               ))
             ) : (
               <div className="col-span-full py-12 text-center animate-fade-in glass-panel rounded-3xl p-8">
                 <div className="inline-block p-4 rounded-full bg-white/5 mb-4">
-                  <Search className="w-8 h-8 text-adaptive-muted" />
+                  {showFavorites ? <Star className="w-8 h-8 text-yellow-500" /> : <Search className="w-8 h-8 text-adaptive-muted" />}
                 </div>
-                <p className="text-lg font-medium text-adaptive-muted">{t.noResults} "{searchQuery}"</p>
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="mt-4 px-4 py-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
-                >
-                  {t.showAll}
-                </button>
+                <p className="text-lg font-medium text-adaptive-muted">
+                  {showFavorites ? t.noFavorites : `${t.noResults} "${searchQuery}"`}
+                </p>
+                {!showFavorites && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="mt-4 px-4 py-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    {t.showAll}
+                  </button>
+                )}
               </div>
             )}
           </div>
